@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
+
+// NOTE: ONLY USE UNTIL NAVIGATION IS SET UP
+import LockScreen from './screens/LockScreen';
 
 export default class App extends Component {
   render() {
     return (
       <NavigationContainer>
-        <View>
-          <Text>Hello, world!</Text>
-        </View>
+        <LockScreen/>
       </NavigationContainer>
     );
   }
