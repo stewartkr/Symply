@@ -14,8 +14,10 @@ export default class LockScreen extends Component {
    */
   componentDidMount() {
     this.setState({ isLoading: true });
-    const pin = await AsyncStorage.getItem('@pin');
-    this.setState({ pin, isLoading: false });
+    AsyncStorage.getItem('@pin')
+    .then((pin) => {
+      this.setState({ pin, isLoading: false });
+    })
     // TODO: Navigate directly to HomeScreen if @pin is null, i.e. if lockscreen is unset
   }
   onSave(userInput) {
