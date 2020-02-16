@@ -30,6 +30,7 @@ export default function List() {
     <View style={styles.container}>
       {/* form*/}
       <View style={styles.inside}>
+        <AddToDo submitSymp = {submitSymp}/>
         <View style={styles.listBody}>
           <FlatList 
             data = {todos}
@@ -38,23 +39,22 @@ export default function List() {
             )}
           />
         </View>
-        <AddToDo submitSymp={submitSymp} />
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    marginTop:100,
+  container: {
+    flex: 1,
+    backgroundColor: '#ffecb3',
   },
   inside:{
-    flex:1,
+
     padding:50
   },
   listBody:{
-    backgroundColor:'silver',
+    
+    marginTop: 20
   }
-})
-
+});
