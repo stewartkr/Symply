@@ -11,7 +11,6 @@ export default class App extends Component {
     return (
       <NavigationContainer>
         <BottomBar />
-        {/* <List /> */}
       </NavigationContainer>
     );
   }

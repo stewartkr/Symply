@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, TextInput, FlatList } from 'react-native';
 import Header from './list-components/Header'
 import ToDoItem from './list-components/ToDoItem'
 import AddToDo from './list-components/AddTodo'
-import { anyTypeAnnotation } from '@babel/types';
 
 export default function List() {
   const [todos, setTodo] = useState([
@@ -49,7 +48,6 @@ const styles = StyleSheet.create({
   container:{
     flex:1,
     marginTop:100,
-
   },
   inside:{
     flex:1,
@@ -57,6 +55,6 @@ const styles = StyleSheet.create({
   },
   listBody:{
     backgroundColor:'silver',
-    marginTop: 20
   }
-});
+})
+
