@@ -17,51 +17,30 @@ const GlobalColors = {
   fontColor: font_color,
   inactiveIconColor: inactive_icon_color,
   activeIconColor: active_icon_color,
-  softWhite: soft_white
+  softWhite: soft_white,
+  pinContainerBG: pin_container_background,
+  circleColor: circle_color,
 }
 
 const GlobalStyle = StyleSheet.create({
   text: {
     fontSize: 18,
-    fontFamily: 'Roboto',
+    fontFamily: 'Roboto-Light',
     color: font_color
   },
 
   titleText: {
-    fontSize: 40,
-    fontFamily: 'Roboto',
+    fontSize: 50,
+    fontFamily: 'Roboto-Thin',
     color: font_color,
     textAlign: 'center',
+    textAlignVertical: 'center'
   },
 
   container: {
     flex: 1,
     backgroundColor: background_color,
   },
-
-  logoContainer: {
-    alignSelf: 'center',
-    alignContent: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 200
-  },
-
-  pinContainer: {
-    alignContent: 'center'
-  },
-
-  pinTextInput: {
-  
-  },
-
-  circle: {
-    borderColor: circle_color,
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    borderWidth: 4
-  }
 }) 
 
 export { GlobalStyle, GlobalColors };

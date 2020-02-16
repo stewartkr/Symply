@@ -4,6 +4,7 @@
 
 # VSCODE
 ./vscode
+*.code-workspace
 
 # Xcode
 #

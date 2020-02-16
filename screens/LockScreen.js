@@ -1,8 +1,36 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { GlobalStyle } from '../assets/GlobalStyle';
+import { GlobalStyle, GlobalColors } from '../assets/GlobalStyle';
+
+const LocalStyle = StyleSheet.create({
+  logoContainer: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '30%'
+  },
+
+  pinContainer: {
+    alignContent: 'center',
+    margin: '12%',    
+    backgroundColor: GlobalColors.pinContainerBG
+  },
+
+  pinTextInput: {
+    backgroundColor: GlobalColors.softWhite,
+    margin: '10%'
+  },
+
+  circle: {
+    borderColor: GlobalColors.circleColor,
+    width: 220,
+    height: 220,
+    borderRadius: 110,
+    borderWidth: 5
+  }
+})
 
 export default class LockScreen extends Component {
 
@@ -31,30 +59,32 @@ export default class LockScreen extends Component {
 
   render() {
     return (
-      <View style={GlobalStyle.container}>
-        <View style={[GlobalStyle.circle, GlobalStyle.logoContainer]}>
-          <Text style={GlobalStyle.titleText}>
+      <KeyboardAvoidingView style={GlobalStyle.container}>
+        <View style={[LocalStyle.circle, LocalStyle.logoContainer]}>
+          <Text style={[GlobalStyle.titleText, {marginTop: '40%'}]}>
             Symply
           </Text>
         </View>
-        <View style={GlobalStyle.pinContainer}>
-          <Text style={GlobalStyle.text}>
-            Enter PIN to unlock
+        <View style={LocalStyle.pinContainer}>
+          <Text style={[GlobalStyle.text, {fontSize: 40, textAlign: 'center', marginTop: '2%'}]}>
+            Enter PIN to{'\n'}unlock
           </Text>
-          <TextInput
-            style={GlobalStyle.text}
-            title="Pin"
-            secureTextEntry={true}
-            onChangeText={
-              (value) => {
-                // at each entry change, re-eval whether we hit the correct pin
-                this.onSave(value);
+          <View style={LocalStyle.pinTextInput}>
+            <TextInput
+              style={[GlobalStyle.text, {marginLeft: '4%'}]}
+              title="Pin"
+              secureTextEntry={true}
+              onChangeText={
+                (value) => {
+                  // at each entry change, re-eval whether we hit the correct pin
+                  this.onSave(value);
+                }
               }
-            }
-            placeholder="PIN"
-          />
+              placeholder="PIN"
+            />
+          </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }
