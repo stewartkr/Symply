@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 
 // NOTE: ONLY USE UNTIL NAVIGATION IS SET UP

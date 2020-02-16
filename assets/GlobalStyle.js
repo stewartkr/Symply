@@ -10,7 +10,7 @@ const inactive_icon_color = "#878786";
 const active_icon_color = "#005BC7";
 const soft_white = "#F6F6FA";
 
-export const GlobalColors = StyleSheet.create({
+const GlobalColors = {
   backgroundColor: background_color,
   headerColor: header_color,
   footerColor: footer_color,
@@ -18,9 +18,9 @@ export const GlobalColors = StyleSheet.create({
   inactiveIconColor: inactive_icon_color,
   activeIconColor: active_icon_color,
   softWhite: soft_white
-})
+}
 
-export const GlobalStyle = StyleSheet.create({
+const GlobalStyle = StyleSheet.create({
   text: {
     fontSize: 18,
     fontFamily: 'Roboto',
@@ -28,29 +28,40 @@ export const GlobalStyle = StyleSheet.create({
   },
 
   titleText: {
-    fontSize: 22,
+    fontSize: 40,
     fontFamily: 'Roboto',
-    color: font_color
+    color: font_color,
+    textAlign: 'center',
   },
 
   container: {
     flex: 1,
-    backgroundColor: background_color
+    backgroundColor: background_color,
+  },
+
+  logoContainer: {
+    alignSelf: 'center',
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 200
   },
 
   pinContainer: {
-    backgroundColor: pin_container_background
+    alignContent: 'center'
   },
 
   pinTextInput: {
-    backgroundColor: soft_white
+  
   },
 
   circle: {
     borderColor: circle_color,
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: 200,
+    height: 200,
+    borderRadius: 100,
     borderWidth: 4
   }
 }) 
+
+export { GlobalStyle, GlobalColors };

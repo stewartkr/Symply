@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -30,29 +30,31 @@ export default class LockScreen extends Component {
   }
 
   render() {
-    <View style={GlobalStyle.container}>
-      <View style={GlobalStyle.circle}>
-        <Text style={GlobalStyle.titleText}>
-          Symple
-        </Text>
-      </View>
-      <View style={GlobalStyle.pinContainer}>
-        <Text style={GlobalStyle.text}>
-          Enter PIN to unlock
-        </Text>
-        <TextInput
-          style={GlobalStyle.pinTextInput}
-          title="Pin"
-          secureTextEntry={true}
-          onChangeText={
-            (value) => {
-              // at each entry change, re-eval whether we hit the correct pin
-              this.onSave(value);
+    return (
+      <View style={GlobalStyle.container}>
+        <View style={[GlobalStyle.circle, GlobalStyle.logoContainer]}>
+          <Text style={GlobalStyle.titleText}>
+            Symply
+          </Text>
+        </View>
+        <View style={GlobalStyle.pinContainer}>
+          <Text style={GlobalStyle.text}>
+            Enter PIN to unlock
+          </Text>
+          <TextInput
+            style={GlobalStyle.text}
+            title="Pin"
+            secureTextEntry={true}
+            onChangeText={
+              (value) => {
+                // at each entry change, re-eval whether we hit the correct pin
+                this.onSave(value);
+              }
             }
-          }
-          placeholder="PIN"
-        />
+            placeholder="PIN"
+          />
+        </View>
       </View>
-    </View>
+    )
   }
 }
