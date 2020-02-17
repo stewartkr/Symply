@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, FlatList } from 'react-native';
-import Header from './list-components/Header'
-import ToDoItem from './list-components/ToDoItem'
-import AddToDo from './list-components/AddTodo'
+import { StyleSheet, View, FlatList } from 'react-native';
+import SymptomItem from './list-components/SymptomItem'
+import AddSymptom from './list-components/AddSymptom'
 
 export default function List() {
-  const [todos, setTodo] = useState([
+  const [symptoms, setSymptom] = useState([
     {text:'nasea', key:'1'},
     {text: 'upset stomach', key: '2'},
     {text: 'headache', key: '3'}
   ]);
 
+  // Removes Item corresponding  to Key
   const pressHandler = (key) => {
-    setTodo((prevTodos) => {
-      return prevTodos.filter(todo => todo.key != key);
+    setSymptom((prevsymptoms) => {
+      return prevsymptoms.filter(todo => todo.key != key);
     });
   }
 
   const submitSymp = (text) => {
-    setTodo((prevTodos) => {
+    setSymptom((prevsymptoms) => {
       return [
         {text: text, key: Math.random().toString()},
-        ...prevTodos
+        ...prevsymptoms
       ]
     });
   }
@@ -30,12 +30,12 @@ export default function List() {
     <View style={styles.container}>
       {/* form*/}
       <View style={styles.inside}>
-        <AddToDo submitSymp = {submitSymp}/>
+        <AddSymptom submitSymp = {submitSymp}/>
         <View style={styles.listBody}>
           <FlatList 
-            data = {todos}
+            data = {symptoms}
             renderItem={({ item })=>(
-              <ToDoItem item={item} pressHandler = {pressHandler}/>
+              <SymptomItem item={item} pressHandler = {pressHandler}/>
             )}
           />
         </View>
