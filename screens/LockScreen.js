@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
-import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import React, { useState, Component }      from 'react';
+import { View, Text, TextInput,
+        StyleSheet, KeyboardAvoidingView } from 'react-native';
+import AsyncStorage                        from '@react-native-community/async-storage';
 
-import { GlobalStyle, GlobalColors } from '../assets/GlobalStyle';
+import { GlobalStyle, GlobalColors }       from '../assets/GlobalStyle';
 
 const LocalStyle = StyleSheet.create({
   logoContainer: {
@@ -32,59 +33,65 @@ const LocalStyle = StyleSheet.create({
   }
 })
 
-export default class LockScreen extends Component {
+function LockView({ navigate }) {
 
   /* 
     state = {
-      isLoading  - boolean to indicate whether all resources are loaded
-      pin        - string representing user's pin
+      pin - string representing user's pin
     }
-   */
-  componentDidMount() {
-    this.setState({ isLoading: true });
-    AsyncStorage.getItem('@pin')
-    .then((pin) => {
-      this.setState({ pin, isLoading: false });
-    })
-    // TODO: Navigate directly to HomeScreen if @pin is null, i.e. if lockscreen is unset
-  }
-  onSave(userInput) {
-    if (userInput == this.state.pin) {
-      // TODO: Navigate to HomeScreen
+  */
+
+  let pin = null;
+
+  const [userInput, setUserInput] = useState('');
+  const userInputChangeHandler = (val) => {
+    setUserInput(val);
+    // at each entry change, re-eval whether we hit the correct pin
+    if(userInput === pin) {
       console.log("correct pin");
+      navigate();
     } else {
       console.log("incorrect pin");
     }
   }
 
-  render() {
-    return (
-      <KeyboardAvoidingView style={GlobalStyle.container}>
-        <View style={[LocalStyle.circle, LocalStyle.logoContainer]}>
-          <Text style={[GlobalStyle.titleText, {marginTop: '40%'}]}>
-            Symply
-          </Text>
+  AsyncStorage.getItem('@pin')
+  .then((result) => {
+    pin = result;
+    if(pin === null) {
+      console.log("no pin");
+      navigate();
+    };
+  })
+
+  return (
+    <KeyboardAvoidingView style={GlobalStyle.container}>
+      <View style={[LocalStyle.circle, LocalStyle.logoContainer]}>
+        <Text style={[GlobalStyle.titleText, {marginTop: '40%'}]}>
+          Symply
+        </Text>
+      </View>
+      <View style={LocalStyle.pinContainer}>
+        <Text style={[GlobalStyle.text, {fontSize: 40, textAlign: 'center', marginTop: '2%'}]}>
+          Enter PIN to{'\n'}unlock
+        </Text>
+        <View style={LocalStyle.pinTextInput}>
+          <TextInput
+            style={[GlobalStyle.text, {marginLeft: '4%'}]}
+            title="Pin"
+            secureTextEntry={true}
+            onChangeText={userInputChangeHandler}
+            placeholder="PIN"
+          />
         </View>
-        <View style={LocalStyle.pinContainer}>
-          <Text style={[GlobalStyle.text, {fontSize: 40, textAlign: 'center', marginTop: '2%'}]}>
-            Enter PIN to{'\n'}unlock
-          </Text>
-          <View style={LocalStyle.pinTextInput}>
-            <TextInput
-              style={[GlobalStyle.text, {marginLeft: '4%'}]}
-              title="Pin"
-              secureTextEntry={true}
-              onChangeText={
-                (value) => {
-                  // at each entry change, re-eval whether we hit the correct pin
-                  this.onSave(value);
-                }
-              }
-              placeholder="PIN"
-            />
-          </View>
-        </View>
-      </KeyboardAvoidingView>
-    )
-  }
+      </View>
+    </KeyboardAvoidingView>
+  )
 }
+
+export default class LockScreen extends Component {
+  render() {
+    // return <LockView navigate={this.props.navigation.navigate('HomeScreen')} />
+    return <LockView navigate={() => console.log('Navigation!')} />
+  }
+} 
