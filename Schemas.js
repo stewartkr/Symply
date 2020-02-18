@@ -3,7 +3,7 @@ const dataEnum = {
     0: 'active',
     1: 'archived',
   },
-  task: {
+  taskStatus: {
     0: 'wait',
     1: 'done',
     2: 'skipped',
@@ -20,7 +20,7 @@ const Treatment = {
     tags: 'string?[]',
     start: 'date?',
     end: 'date?',
-    status: {type: 'int', default: 0},
+    status: {type: 'int', default: 0}, // dataEnum.status
   },
 };
 
@@ -29,7 +29,7 @@ const Symptom = {
   properties: {
     name: 'string',
     tags: 'string?[]',
-    status: {type: 'int', default: 0},
+    status: {type: 'int', default: 0}, // dataEnum.status
   },
 };
 
@@ -62,7 +62,7 @@ const Activity = {
   name: 'Activity',
   properties: {
     name: 'string',
-    status: {type: 'int', default: 0},
+    status: {type: 'int', default: 0}, // dataEnum.status
   },
 };
 
@@ -78,7 +78,7 @@ const Reminder = {
 const ReminderOccurrence = {
   name: 'ReminderOccurrence',
   properties: {
-    status: {type: 'int', default: 0},
+    taskStatus: {type: 'int', default: 0}, // dataEnum.taskStatus
     parent: 'Reminder',
   },
 };
@@ -96,7 +96,7 @@ const Tag = {
   properties: {
     name: 'string',
     associates: 'string[]',
-    status: {type: 'int', default: 0},
+    status: {type: 'int', default: 0}, // dataEnum.status
   },
 };
 
