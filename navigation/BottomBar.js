@@ -2,10 +2,10 @@ import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { HomeScreen } from "./tab-comps/HomeScreen";
-import { AppointmentScreen } from "./tab-comps/AppointmentScreen";
-import { ProfileScreen } from "./tab-comps/ProfileScreen";
-import { LogScreen } from "./tab-comps/LogScreen";
+import { HomeScreen } from "../tab-comps/HomeScreen";
+import { AppointmentScreen } from "../tab-comps/AppointmentScreen";
+import { ProfileScreen } from "../tab-comps/ProfileScreen";
+import { LogScreen } from "../tab-comps/LogScreen";
 
 export default function BottomBar() {
   
@@ -15,10 +15,10 @@ export default function BottomBar() {
   return (
       <Tab.Navigator
         screenOptions={({ route }) => ({
-            TabBarIcon: ({ focused, color, size }) => {
+            tabBarIcon: ({ color, size }) => {
               let iconName;
 
-              if (name === 'Home') {
+              if (route.name === 'Home') {
                 iconName = 'ios-home';
               } else if (route.name === 'Log') {
                 iconName = 'ios-calendar';
@@ -34,7 +34,7 @@ export default function BottomBar() {
               return <Icon name={iconName} size={size} color={color} />;
             },
           })}
-          TabBarOptions={{
+          tabBarOptions={{
             activeTintColor: '#005bc7',
             inactiveTintColor: 'black',
             inactiveBackgroundColor: '#CCCCCC',
@@ -47,11 +47,3 @@ export default function BottomBar() {
       </Tab.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'red',
-    color: 'red',
-  },
-});
-

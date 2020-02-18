@@ -5,6 +5,8 @@ import AsyncStorage                        from '@react-native-community/async-s
 
 import { GlobalStyle, GlobalColors }       from '../assets/GlobalStyle';
 
+const NAV_TO = 'Main';
+
 const LocalStyle = StyleSheet.create({
   logoContainer: {
     alignSelf: 'center',
@@ -33,7 +35,7 @@ const LocalStyle = StyleSheet.create({
   }
 })
 
-function LockView({ navigate }) {
+export default function LockScreen({ navigation }) {
 
   /* 
     state = {
@@ -49,7 +51,7 @@ function LockView({ navigate }) {
     // at each entry change, re-eval whether we hit the correct pin
     if(userInput === pin) {
       console.log("correct pin");
-      navigate();
+      navigation.navigate(NAV_TO);
     } else {
       console.log("incorrect pin");
     }
@@ -60,7 +62,7 @@ function LockView({ navigate }) {
     pin = result;
     if(pin === null) {
       console.log("no pin");
-      navigate();
+      navigation.navigate(NAV_TO);
     };
   })
 
@@ -88,10 +90,3 @@ function LockView({ navigate }) {
     </KeyboardAvoidingView>
   )
 }
-
-export default class LockScreen extends Component {
-  render() {
-    // return <LockView navigate={this.props.navigation.navigate('HomeScreen')} />
-    return <LockView navigate={() => console.log('Navigation!')} />
-  }
-} 
