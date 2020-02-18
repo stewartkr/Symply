@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from 'react-native-vector-icons';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import { HomeScreen } from "./tab-comps/HomeScreen";
 import { AppointmentScreen } from "./tab-comps/AppointmentScreen";
@@ -16,24 +14,24 @@ export default function BottomBar() {
 
   return (
       <Tab.Navigator
-        screenOptions={({ name }) => ({
+        screenOptions={({ route }) => ({
             TabBarIcon: ({ focused, color, size }) => {
               let iconName;
 
               if (name === 'Home') {
                 iconName = 'ios-home';
-              } else if (name === 'Log') {
+              } else if (route.name === 'Log') {
                 iconName = 'ios-calendar';
               }
-              else if (name === 'Profile') {
+              else if (route.name === 'Profile') {
                 iconName='md-person';
               }
-              else if(name === 'Appointments') {
+              else if(route.name === 'Appointments') {
                 iconName='md-clipboard'
               }
 
               // You can return any component that you like here!
-              return <Ionicons name={iconName} size={size} color={color} />;
+              return <Icon name={iconName} size={size} color={color} />;
             },
           })}
           TabBarOptions={{
