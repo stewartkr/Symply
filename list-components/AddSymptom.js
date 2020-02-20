@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, Button, View } from 'react-native';
+import { StyleSheet, TextInput, Button, View } from 'react-native';
 
-export default function AddTodo({ submitSymp }) {
+export default function AddSymptom({ submitSymp }) {
 
     const [text, setText] = useState('');
     const changeHandler = (val) => {
