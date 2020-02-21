@@ -14,15 +14,15 @@ export default function TestRealmButtons({}) {
       <Button
         title='populate Realm'
         onPress={() => populateRealm()}
-      /> 
+      />
       <Button
         title='depopulate Realm'
         onPress={() => depopulateRealm()}
-      /> 
+      />
       <Button
         title='show Realm contents'
         onPress={() => showRealm()}
-      /> 
+      />
     </View>
   )
 }
@@ -40,14 +40,14 @@ function populateRealm() {
       // TESTING
       console.debug("note1");
 
-      const note2 = realm.create(Note.name, {
+      const note2 = realm.create(allSchemas.Note.name, {
         text: 'I\'m really proud of what I was able to accomplish today.',
         logDate: new Date(2020, 2, 15),
       });
       // TESTING
       console.debug("note2");
 
-      const note3 = realm.create(Note.name, {
+      const note3 = realm.create(allSchemas.Note.name, {
         text: 'Been having trouble doing the breathing exercises today.',
         logDate: new Date(2020, 2, 10),
       })
@@ -55,7 +55,7 @@ function populateRealm() {
       console.debug("note3");
 
       // create mock Contact objects
-      const contact1 = realm.create(Contact.name, {
+      const contact1 = realm.create(allSchemas.Contact.name, {
         type: 'Phone Number',
         content: '(555) 555-5555',
       })
@@ -65,35 +65,35 @@ function populateRealm() {
       // create mock Tag objects
       const tag1 = realm.create(allSchemas.Tag.name, {
         name: 'physical',
-        associates: [Symptom.name],
+        associates: [allSchemas.Symptom.name],
       })
       // TESTING
       console.debug("tag1");
 
       const tag2 = realm.create(allSchemas.Tag.name, {
         name: 'side effect',
-        associates: [Symptom.name],
+        associates: [allSchemas.Symptom.name],
       })
       // TESTING
       console.debug("tag2");
 
       const tag3 = realm.create(allSchemas.Tag.name, {
         name: 'good day',
-        associates: [Reflection.name],
+        associates: [allSchemas.Reflection.name],
       })
       // TESTING
       console.debug("tag3");
 
       const tag4 = realm.create(allSchemas.Tag.name, {
         name: 'acute',
-        associates: [Incident.name],
+        associates: [allSchemas.Incident.name],
       })
       // TESTING
       console.debug("tag4");
 
       const tag5 = realm.create(allSchemas.Tag.name, {
         name: 'as needed',
-        associates: [Treatment.name],
+        associates: [allSchemas.Treatment.name],
       })
       // TESTING
       console.debug("tag5");
@@ -107,7 +107,7 @@ function populateRealm() {
 
       const sympt2 = realm.create(allSchemas.Symptom.name, {
         name: 'Stomach Ache',
-        tags: [tag1.name, tag2.name],
+        tags: [tag1, tag2],
       })
       // TESTING
       console.debug("sympt2");
@@ -183,7 +183,7 @@ function populateRealm() {
         medication: true,
         dose: 500,
         doseUnit: 'mg',
-        tags: [tag5.name]
+        tags: [tag5]
       })
       // TESTING
       console.debug("treat4");
@@ -202,7 +202,7 @@ function populateRealm() {
         treatments: [treat3],
         notes: [note3],
         severity: 4,
-        tags: [tag4.name],
+        tags: [tag4],
         logDate: new Date(2020, 2, 10),
       })
       // TESTING
@@ -323,8 +323,12 @@ function showRealm() {
   console.log("Show Realm: ");
   Realm.open(defaultOpenParams)
   .then(realm => {
-    for (const schema of allSchemas) {
-      let iter = realm.objects(schema.name).values();
+    console.log('realm open');
+    const schemaArr = Object.values(allSchemas);
+    for (const schema of schemaArr) {
+      console.log(`#######${schema.name}########`)
+      let iter = realm.objects(schema.name);
+      console.log(iter);
       for (const val of iter) {
         console.log("Schema: " + schema.name);
         console.log(val);

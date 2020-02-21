@@ -10,7 +10,7 @@ const dataEnum = {
   },
 };
 
-const schemaVersion = 1;
+const schemaVersion = 2;
 
 const Treatment = {
   name: 'Treatment',
@@ -19,7 +19,7 @@ const Treatment = {
     medication: 'bool',
     dose: 'int?',
     doseUnit: 'string?',
-    tags: 'string?[]',
+    tags: 'Tag[]',
     start: 'date?',
     end: 'date?',
     status: {type: 'int', default: 0}, // dataEnum.status
@@ -30,7 +30,7 @@ const Symptom = {
   name: 'Symptom',
   properties: {
     name: 'string',
-    tags: 'string?[]',
+    tags: 'Tag[]',
     status: {type: 'int', default: 0}, // dataEnum.status
   },
 };
@@ -38,12 +38,12 @@ const Symptom = {
 const Incident = {
   name: 'Incident',
   properties: {
-    symptoms: 'Symptom?[]',
-    providers: 'Provider?[]',
-    treatments: 'Treatment?[]',
-    notes: 'Note?[]',
+    symptoms: 'Symptom[]',
+    providers: 'Provider[]',
+    treatments: 'Treatment[]',
+    notes: 'Note[]',
     severity: 'int',
-    tags: 'string?[]',
+    tags: 'Tag[]',
     logDate: 'date',
   },
 };
@@ -55,7 +55,7 @@ const Reflection = {
     sleepQuality: 'int',
     diet: 'int',
     activities: 'Activity[]',
-    notes: 'Note?[]',
+    notes: 'Note[]',
     logDate: 'date',
   },
 };
@@ -71,7 +71,7 @@ const Activity = {
 const Reminder = {
   name: 'Reminder',
   properties: {
-    tasks: 'Task?[]',
+    tasks: 'Task[]',
     text: {type: 'string', default: ''},
     schedule: 'string',
   },
@@ -108,7 +108,7 @@ const Provider = {
     firstName: 'string',
     lastName: 'string',
     address: 'string?',
-    contacts: 'Contact?[]',
+    contacts: 'Contact[]',
     occupation: 'string?',
     photo: 'string?',
   },
@@ -127,7 +127,7 @@ const Appointment = {
   properties: {
     provider: 'Provider',
     time: 'date',
-    notes: 'Note?[]',
+    notes: 'Note[]',
   },
 };
 
@@ -139,7 +139,7 @@ const Note = {
   },
 };
 
-const allSchemas = [
+const allSchemas = {
   Treatment,
   Symptom,
   Incident,
@@ -153,16 +153,11 @@ const allSchemas = [
   Note,
   Provider,
   Task,
-]
-
-export default defaultOpenParams = {
-  schema: allSchemas,
-  schemaVersion,
-  // deleteRealmIfMigrationNeeded: true,
-}
-
-export {
-  dataEnum,
-  schemaVersion,
-  allSchemas,
 };
+
+const defaultOpenParams = {
+  schema: Object.values(allSchemas),
+  schemaVersion,
+};
+
+export {dataEnum, schemaVersion, allSchemas, defaultOpenParams};
