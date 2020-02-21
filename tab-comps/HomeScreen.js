@@ -1,8 +1,10 @@
-import React, {useState, Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, View, Button, StyleSheet, Picker, FlatList} from 'react-native';
 import Slider from '@react-native-community/slider';
 import {Dropdown} from 'react-native-material-dropdown';
 import {GlobalColors, GlobalStyle} from '../assets/GlobalStyle';
+
+const Realm = require('realm');
 
 const sliderText = {
   0: {
@@ -41,6 +43,55 @@ export function HomeScreen() {
   const [sliderState, setSlider] = useState(0);
   const [sliderValue, setValue] = useState(5);
   const [inputFields, setInput] = useState({});
+  const [realm, setRealm] = useState(null);
+
+  const inputHandler = input => {
+    setInput(input);
+  };
+
+  const refs = [];
+
+  const types = [
+    ['Symptom', 'Provider', 'Treatment', 'Tag'],
+    ['Sleep', 'Diet', 'Activity', 'Tag'],
+  ];
+
+  const labels = [
+    ['I feel...', 'I can talk to...', 'I can try...', 'Tags'],
+    ['Last night, I slept...', 'Today, my diet was...', 'Today, I...', 'Tags'],
+  ];
+
+  const choices = [
+    [
+      [{value: 'Stomachache'}, {value: 'Headache'}, {value: 'Heartburn'}],
+      [{value: 'John Smith'}, {value: 'Michelle Alphabet'}],
+      [{value: 'Soup'}],
+      [{value: 'Physical'}, {value: 'Mental'}],
+    ],
+    [
+      [
+        {value: '>12 hours'},
+        {value: '10-12 hours'},
+        {value: '8-10 hours'},
+        {value: '6-8 hours'},
+        {value: '4-6 hours'},
+        {value: '<4 hours'},
+      ],
+      [
+        {value: 'Great'},
+        {value: 'Good'},
+        {value: 'Okay'},
+        {value: 'Poor'},
+        {value: 'Bad'},
+      ],
+      [
+        {value: 'Exercised'},
+        {value: 'Socialized'},
+        {value: 'Played videogames'},
+      ],
+      [{value: 'Good Day'}, {value: 'Bad Day'}],
+    ],
+  ];
 
   return (
     <View style={[GlobalStyle.container, {alignItems: 'center'}]}>
@@ -62,21 +113,28 @@ export function HomeScreen() {
           paddingBottom: 40,
         }}>
         <Button
-          title={'Add Record'}
-          onPress={() => {
-            console.log('add record');
-          }}
-        />
-        <Button
           title={'Change Type'}
           onPress={() => {
             setSlider((sliderState + 1) % 2);
+            resetRefs(refs);
           }}
         />
       </View>
-      <View style={{flex: 4, width: '96%', backgroundColor: 'red'}}>
-        <RecordContainer inputHandler={setInput} />
+      <View
+        style={{
+          flex: 4,
+          width: '96%',
+          backgroundColor: GlobalColors.softWhite,
+        }}>
+        <IncidentContainer
+          types={types[sliderState]}
+          choices={choices[sliderState]}
+          labels={labels[sliderState]}
+          inputHandler={inputHandler}
+          refs={refs}
+        />
       </View>
+        <View style={{height: 20}} />
     </View>
   );
 }
@@ -114,25 +172,15 @@ const SliderContainer = ({sliderMin, sliderMax, setValue}) => {
   );
 };
 
-const RecordContainer = ({inputHandler, types, labels, choices}) => {
-  return (
-    <View style={GlobalStyle.container}>
-      <IncidentContainer
-        inputHandler={inputHandler}
-        types={['Symptom', 'Provider', 'Treatment', 'Tag']}
-        labels={['I feel...', 'I can talk to...', 'I can try...', 'Tags']}
-        choices={[
-          [{value: 'Stomachache'}, {value: 'Headache'}, {value: 'Heartburn'}],
-          [{value: 'John Smith'}, {value: 'Michelle Alphabet'}],
-          [{value: 'Soup'}],
-          [{value: 'Physical'}, {value: 'Mental'}],
-        ]}
-      />
-    </View>
-  );
+const resetRefs = refs => {
+  refs.forEach(ref => {
+    if (ref !== null) {
+      ref.setState({value: ''});
+    }
+  });
 };
 
-const IncidentContainer = ({inputHandler, types, labels, choices}) => {
+const IncidentContainer = ({inputHandler, types, labels, choices, refs}) => {
   const [currentInput, setInput] = useState({});
 
   return (
@@ -150,6 +198,7 @@ const IncidentContainer = ({inputHandler, types, labels, choices}) => {
                   ...prevInput,
                 }));
               }}
+              ref={c => refs.push(c)}
             />
             <View style={{flex: 1, height: 10}} />
           </View>
@@ -160,6 +209,8 @@ const IncidentContainer = ({inputHandler, types, labels, choices}) => {
         title={'Submit'}
         onPress={() => {
           inputHandler(currentInput);
+          setInput({});
+          resetRefs(refs);
         }}
       />
     </View>
