@@ -112,48 +112,50 @@ export function HomeScreen() {
   ];
 
   return (
-    <View style={[GlobalStyle.container, {alignItems: 'center'}]}>
-      <TopBar pageName='Home' />
-      <View style={styles.sliderBox}>
-        <Text style={GlobalStyle.titleText}>
-          {sliderText[sliderState].title}
-        </Text>
-        <SliderContainer
-          sliderMin={sliderText[sliderState].min}
-          sliderMax={sliderText[sliderState].max}
-          setValue={setValue}
-        />
+    <View style={{flex: 1}}>
+      <TopBar pageName="Home" />
+      <View style={[GlobalStyle.container, {alignItems: 'center'}]}>
+        <View style={styles.sliderBox}>
+          <Text style={GlobalStyle.titleText}>
+            {sliderText[sliderState].title}
+          </Text>
+          <SliderContainer
+            sliderMin={sliderText[sliderState].min}
+            sliderMax={sliderText[sliderState].max}
+            setValue={setValue}
+          />
+        </View>
+        <View
+          style={{
+            position: 'relative',
+            top: 20,
+            flexDirection: 'row',
+            paddingBottom: 40,
+          }}>
+          <Button
+            title={'Change Type'}
+            onPress={() => {
+              setSlider((sliderState + 1) % 2);
+              resetRefs(refs);
+            }}
+          />
+        </View>
+        <View
+          style={{
+            flex: 3,
+            width: '96%',
+            backgroundColor: GlobalColors.softWhite,
+          }}>
+          <IncidentContainer
+            types={types[sliderState]}
+            choices={choices[sliderState]}
+            labels={labels[sliderState]}
+            inputHandler={setInput}
+            refs={refs}
+          />
+        </View>
+        <View style={{height: 20}} />
       </View>
-      <View
-        style={{
-          position: 'relative',
-          top: 20,
-          flexDirection: 'row',
-          paddingBottom: 40,
-        }}>
-        <Button
-          title={'Change Type'}
-          onPress={() => {
-            setSlider((sliderState + 1) % 2);
-            resetRefs(refs);
-          }}
-        />
-      </View>
-      <View
-        style={{
-          flex: 4,
-          width: '96%',
-          backgroundColor: GlobalColors.softWhite,
-        }}>
-        <IncidentContainer
-          types={types[sliderState]}
-          choices={choices[sliderState]}
-          labels={labels[sliderState]}
-          inputHandler={setInput}
-          refs={refs}
-        />
-      </View>
-      <View style={{height: 20}} />
     </View>
   );
 }
