@@ -7,7 +7,9 @@ import TopBar from '../navigation/TopBar';
 import { DEBUG } from '../debug/debugStatus';
 import TestRealmButtons from '../debug/TestRealmButtons';
 
-import {schemaVersion, Symptom, Treatment, Provider, Contact, Tag, Activity, Note } from '../Schemas';
+import {
+  defaultOpenParams
+} from '../realm/DatabaseConfig';
 
 const Realm = require('realm');
 
@@ -122,11 +124,8 @@ export function HomeScreen() {
   }
 
   useEffect(() => {
-    Realm.open({
-      schema: [Symptom, Treatment, Provider, Contact, Tag, Activity, Note],
-      schemaVersion,
-      deleteRealmIfMigrationNeeded: true,
-    }).then(r => {
+    Realm.open(defaultOpenParams)
+    .then(r => {
       console.log('opened realm');
       setRealm(r);
       populateIncidentChoices(r);

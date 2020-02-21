@@ -1,38 +1,12 @@
 import React from 'react';
 import {
-  dataEnum,
-  Treatment,
-  Symptom,
-  Incident,
-  Reflection,
-  Activity,
-  Reminder,
-  ReminderOccurrence,
-  Tag,
-  Appointment,
-  Contact,
-  Note,
-  Provider,
-  Task
-} from '../Schemas';
+  defaultOpenParams,
+  allSchemas,
+} from '../realm/DatabaseConfig';
 
 import { View, Button } from 'react-native';
 
 const Realm = require('realm');
-const allSchemas = [
-  Treatment,
-  Symptom,
-  Incident,
-  Reflection,
-  Activity,
-  Reminder,
-  ReminderOccurrence,
-  Tag,
-  Appointment,
-  Contact,
-  Note,
-  Provider,
-  Task];
 
 export default function TestRealmButtons({}) {
   return (
@@ -55,11 +29,11 @@ export default function TestRealmButtons({}) {
 
 // add in mock data for development purposes
 function populateRealm() {
-  Realm.open({schema: allSchemas})
+  Realm.open(defaultOpenParams)
   .then(realm => {
     realm.write(() => {
       // create mock Note objects
-      const note1 = realm.create(Note.name, {
+      const note1 = realm.create(allSchemas.Note.name, {
         text: 'First visit',
         logDate: new Date(2020, 2, 20),
       });
@@ -89,35 +63,35 @@ function populateRealm() {
       console.debug("contact1");
 
       // create mock Tag objects
-      const tag1 = realm.create(Tag.name, {
+      const tag1 = realm.create(allSchemas.Tag.name, {
         name: 'physical',
         associates: [Symptom.name],
       })
       // TESTING
       console.debug("tag1");
 
-      const tag2 = realm.create(Tag.name, {
+      const tag2 = realm.create(allSchemas.Tag.name, {
         name: 'side effect',
         associates: [Symptom.name],
       })
       // TESTING
       console.debug("tag2");
 
-      const tag3 = realm.create(Tag.name, {
+      const tag3 = realm.create(allSchemas.Tag.name, {
         name: 'good day',
         associates: [Reflection.name],
       })
       // TESTING
       console.debug("tag3");
 
-      const tag4 = realm.create(Tag.name, {
+      const tag4 = realm.create(allSchemas.Tag.name, {
         name: 'acute',
         associates: [Incident.name],
       })
       // TESTING
       console.debug("tag4");
 
-      const tag5 = realm.create(Tag.name, {
+      const tag5 = realm.create(allSchemas.Tag.name, {
         name: 'as needed',
         associates: [Treatment.name],
       })
@@ -125,26 +99,26 @@ function populateRealm() {
       console.debug("tag5");
 
       // create mock Symptom objects
-      const sympt1 = realm.create(Symptom.name, {
+      const sympt1 = realm.create(allSchemas.Symptom.name, {
         name: 'Anxiety',
       })
       // TESTING
       console.debug("sympt1");
 
-      const sympt2 = realm.create(Symptom.name, {
+      const sympt2 = realm.create(allSchemas.Symptom.name, {
         name: 'Stomach Ache',
         tags: [tag1.name, tag2.name],
       })
       // TESTING
       console.debug("sympt2");
 
-      const sympt3 = realm.create(Symptom.name, {
+      const sympt3 = realm.create(allSchemas.Symptom.name, {
         name: 'Ankle Pain',
       })
       // TESTING
       console.debug("sympt3");
 
-      const sympt4 = realm.create(Symptom.name, {
+      const sympt4 = realm.create(allSchemas.Symptom.name, {
         name: 'Not Ankle Pain',
         status: 1,
       })
@@ -152,32 +126,32 @@ function populateRealm() {
       console.debug("sympt4");
 
       // create mock Activity objects
-      const activity1 = realm.create(Activity.name, {
+      const activity1 = realm.create(allSchemas.Activity.name, {
         name: 'Jogging',
       })
       // TESTING
       console.debug("activity1");
 
-      const activity2 = realm.create(Activity.name, {
+      const activity2 = realm.create(allSchemas.Activity.name, {
         name: 'Painting',
       })
       // TESTING
       console.debug("activity2");
 
-      const activity3 = realm.create(Activity.name, {
+      const activity3 = realm.create(allSchemas.Activity.name, {
         name: 'Working',
       })
       // TESTING
       console.debug("activity3");
 
-      const activity4 = realm.create(Activity.name, {
+      const activity4 = realm.create(allSchemas.Activity.name, {
         name: 'Not Jogging',
       })
       // TESTING
       console.debug("activity4");
 
       // create mock Treatment objects
-      const treat1 = realm.create(Treatment.name, {
+      const treat1 = realm.create(allSchemas.Treatment.name, {
         name: 'Abilify Oral',
         medication: true,
         dose: 15,
@@ -186,7 +160,7 @@ function populateRealm() {
       // TESTING
       console.debug("treat1");
 
-      const treat2 = realm.create(Treatment.name, {
+      const treat2 = realm.create(allSchemas.Treatment.name, {
         name: 'Erythromycin Ethlysuccinate',
         medication: true,
         dose: 400,
@@ -197,14 +171,14 @@ function populateRealm() {
       // TESTING
       console.debug("treat2");
 
-      const treat3 = realm.create(Treatment.name, {
+      const treat3 = realm.create(allSchemas.Treatment.name, {
         name: 'Breathing Exercises',
         medication: false,
       })
       // TESTING
       console.debug("treat3");
 
-      const treat4 = realm.create(Treatment.name, {
+      const treat4 = realm.create(allSchemas.Treatment.name, {
         name: 'Acetaminophen',
         medication: true,
         dose: 500,
@@ -214,7 +188,7 @@ function populateRealm() {
       // TESTING
       console.debug("treat4");
 
-      const treat5 = realm.create(Treatment.name, {
+      const treat5 = realm.create(allSchemas.Treatment.name, {
         name: 'Not Breathing Exercises',
         medication: false,
         status: 1,
@@ -223,7 +197,7 @@ function populateRealm() {
       console.debug("treat5");
 
       // create mock Incident objects
-      const incident1 = realm.create(Incident.name, {
+      const incident1 = realm.create(allSchemas.Incident.name, {
         symptoms: [sympt1, sympt2],
         treatments: [treat3],
         notes: [note3],
@@ -234,7 +208,7 @@ function populateRealm() {
       // TESTING
       console.debug("incident1");
 
-      const incident2 = realm.create(Incident.name, {
+      const incident2 = realm.create(allSchemas.Incident.name, {
         symptoms: [sympt3],
         severity: 7,
         logDate: new Date(2020, 2, 20),
@@ -243,7 +217,7 @@ function populateRealm() {
       console.debug("incident2");
 
       // create mock Reflection objects
-      const reflect1 = realm.create(Reflection.name, {
+      const reflect1 = realm.create(allSchemas.Reflection.name, {
         sleepDuration: 6.5,
         sleepQuality: 4,
         diet: 2,
@@ -252,7 +226,7 @@ function populateRealm() {
       // TESTING
       console.debug("reflect1");
 
-      const reflect2 = realm.create(Reflection.name, {
+      const reflect2 = realm.create(allSchemas.Reflection.name, {
         sleepDuration: 8.2,
         sleepQuality: 7,
         diet: 7,
@@ -263,13 +237,13 @@ function populateRealm() {
       console.debug("reflect2");
 
       // create mock Task objects
-      const task1 = realm.create(Task.name, {
+      const task1 = realm.create(allSchemas.Task.name, {
         todo: 'Call your parents',
       })
       // TESTING
       console.debug("task1");
 
-      const task2 = realm.create(Task.name, {
+      const task2 = realm.create(allSchemas.Task.name, {
         todo: 'Check your ankle\'s range of motion',
         treatment: treat4
       })
@@ -277,7 +251,7 @@ function populateRealm() {
       console.debug("task2");
 
       // create mock Reminder objects
-      const reminder1 = realm.create(Reminder.name, {
+      const reminder1 = realm.create(allSchemas.Reminder.name, {
         text: 'Sunday Morning',
         schedule: '58**0', // every Sunday at 8:05am
         tasks: [task1],
@@ -285,7 +259,7 @@ function populateRealm() {
       // TESTING
       console.debug("reminder1");
 
-      const reminder2 = realm.create(Reminder.name, {
+      const reminder2 = realm.create(allSchemas.Reminder.name, {
         text: 'Body Checkup',
         schedule: '520***', // every day at 8:05pm
         tasks: [task2],
@@ -294,7 +268,7 @@ function populateRealm() {
       console.debug("reminder2");
 
       // create mock Provider objects
-      const provider1 = realm.create(Provider.name, {
+      const provider1 = realm.create(allSchemas.Provider.name, {
         firstName: 'John',
         lastName: 'Smith',
         address: '1234 Office Pkwy, Bellingham, WA 98229',
@@ -305,7 +279,7 @@ function populateRealm() {
       console.debug("provider1");
 
       // create mock Appointment objects
-      const appoint1 = realm.create(Appointment.name, {
+      const appoint1 = realm.create(allSchemas.Appointment.name, {
         provider: provider1,
         time: new Date(2020, 3, 1),
         notes: [note1],
@@ -313,7 +287,7 @@ function populateRealm() {
       // TESTING
       console.debug("appoint1");
 
-      const appoint2 = realm.create(Appointment.name, {
+      const appoint2 = realm.create(allSchemas.Appointment.name, {
         provider: provider1,
         time: new Date(2020, 3, 8),
         notes: [],
@@ -330,7 +304,7 @@ function populateRealm() {
 
 // remove all data for development purposes
 function depopulateRealm() {
-  Realm.open({schema: allSchemas})
+  Realm.open(defaultOpenParams)
   .then(realm => {
     realm.write(() => {
       realm.deleteAll();
@@ -347,7 +321,7 @@ function depopulateRealm() {
 // "console log"s contents of realm
 function showRealm() {
   console.log("Show Realm: ");
-  Realm.open({schema: allSchemas})
+  Realm.open(defaultOpenParams)
   .then(realm => {
     for (const schema of allSchemas) {
       let iter = realm.objects(schema.name).values();
