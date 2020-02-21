@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, Button, StyleSheet, Picker, FlatList} from 'react-native';
+import {Text, SafeAreaView, View, Button, StyleSheet, Picker, FlatList} from 'react-native';
 import Slider from '@react-native-community/slider';
 import {Dropdown} from 'react-native-material-dropdown';
 import {GlobalColors, GlobalStyle} from '../assets/GlobalStyle';
 import TopBar from '../navigation/TopBar';
+import { DEBUG } from '../debug/debugStatus';
+import TestRealmButtons from '../debug/TestRealmButtons';
 
-import {schemaVersion} from '../Schemas';
+import {schemaVersion, Symptom, Treatment, Provider, Contact, Tag, Activity, Note } from '../Schemas';
 
 const Realm = require('realm');
 
@@ -48,25 +50,6 @@ export function HomeScreen() {
   const [inputFields, setInput] = useState({});
   const [realm, setRealm] = useState(null);
 
-  useEffect(() => {
-    Realm.open({
-      schema: [],
-      schemaVersion,
-      deleteRealmIfMigrationNeeded: true,
-    }).then(r => {
-      console.log('opened realm');
-      setRealm(r);
-    });
-
-    return () => {
-      if (realm !== null && !realm.isClosed) {
-        console.log('closed realm');
-        realm.close();
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // empty dependency array used to ensure realm only opened once
-
   const refs = [];
 
   const types = [
@@ -81,12 +64,14 @@ export function HomeScreen() {
 
   const choices = [
     [
-      [{value: 'Stomachache'}, {value: 'Headache'}, {value: 'Heartburn'}],
-      [{value: 'John Smith'}, {value: 'Michelle Alphabet'}],
-      [{value: 'Soup'}],
-      [{value: 'Physical'}, {value: 'Mental'}],
+      // incident recording choices
+      [],
+      [],
+      [],
+      [],
     ],
     [
+      // reflection recording choices
       [
         {value: '>12 hours'},
         {value: '10-12 hours'},
@@ -111,8 +96,53 @@ export function HomeScreen() {
     ],
   ];
 
+  function populateIncidentChoices(realm) {
+    let iter;
+    let schemaNumber = 0;
+    let incChoices = choices[0];
+    let incTypes = types[0];
+
+    for (const schemaName of incTypes){
+      schemaNumber++;
+      // TESTING
+      console.log(realm)
+      iter = realm.objects(schemaName).values();
+      for (const entry of iter) {
+        if (schemaName === 'Provider') {
+          incChoices[schemaNumber].push({
+            value: entry.firstName + ' ' + entry.lastName
+          })
+        } else {
+          incChoices[schemaNumber].push({
+            value: entry.name
+          })
+        }
+      }
+    }
+  }
+
+  useEffect(() => {
+    Realm.open({
+      schema: [Symptom, Treatment, Provider, Contact, Tag, Activity, Note],
+      schemaVersion,
+      deleteRealmIfMigrationNeeded: true,
+    }).then(r => {
+      console.log('opened realm');
+      setRealm(r);
+      populateIncidentChoices(r);
+    });
+
+    return () => {
+      if (realm !== null && !realm.isClosed) {
+        console.log('closed realm');
+        realm.close();
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // empty dependency array used to ensure realm only opened once
+
   return (
-    <View style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1}}>
       <TopBar pageName="Home" />
       <View style={[GlobalStyle.container, {alignItems: 'center'}]}>
         <View style={styles.sliderBox}>
@@ -156,7 +186,8 @@ export function HomeScreen() {
         </View>
         <View style={{height: 20}} />
       </View>
-    </View>
+      {DEBUG ? <TestRealmButtons/> : <View/>}
+    </SafeAreaView>
   );
 }
 
