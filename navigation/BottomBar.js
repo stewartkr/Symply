@@ -4,8 +4,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { HomeScreen } from "../tab-comps/HomeScreen";
 import { AppointmentScreen } from "../tab-comps/AppointmentScreen";
-import { ProfileScreen } from "../tab-comps/ProfileScreen";
+import ProfileNavigator from "../tab-comps/ProfileScreen.js";
 import { LogScreen } from "../tab-comps/LogScreen";
+
+
 
 export default function BottomBar() {
 
@@ -43,7 +45,7 @@ export default function BottomBar() {
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Log" component={LogScreen} />
         <Tab.Screen name="Appointments" component={AppointmentScreen} />
-        <Tab.Screen name="Profile" component={ProfileScreen} />
+        <Tab.Screen name="Profile" component={ProfileNavigator} />
       </Tab.Navigator>
   );
 }

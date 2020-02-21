@@ -8,7 +8,6 @@ export function HomeScreen() {
     return (
         <View style={{flex: 1}}>
           <TopBar pageName='Home' />
-          <ProviderScreen />
         </View>
 
     );
