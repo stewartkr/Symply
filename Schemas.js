@@ -10,6 +10,8 @@ const dataEnum = {
   },
 };
 
+const schemaVersion = 1;
+
 const Treatment = {
   name: 'Treatment',
   properties: {
@@ -138,6 +140,7 @@ const Note = {
 };
 
 export {
+  schemaVersion,
   dataEnum,
   Treatment,
   Symptom,
