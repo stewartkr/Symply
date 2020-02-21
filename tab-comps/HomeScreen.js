@@ -3,6 +3,7 @@ import {Text, View, Button, StyleSheet, Picker, FlatList} from 'react-native';
 import Slider from '@react-native-community/slider';
 import {Dropdown} from 'react-native-material-dropdown';
 import {GlobalColors, GlobalStyle} from '../assets/GlobalStyle';
+import TopBar from '../navigation/TopBar';
 
 import {schemaVersion} from '../Schemas';
 
@@ -112,6 +113,7 @@ export function HomeScreen() {
 
   return (
     <View style={[GlobalStyle.container, {alignItems: 'center'}]}>
+      <TopBar pageName='Home' />
       <View style={styles.sliderBox}>
         <Text style={GlobalStyle.titleText}>
           {sliderText[sliderState].title}
