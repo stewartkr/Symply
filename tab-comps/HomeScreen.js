@@ -4,6 +4,8 @@ import Slider from '@react-native-community/slider';
 import {Dropdown} from 'react-native-material-dropdown';
 import {GlobalColors, GlobalStyle} from '../assets/GlobalStyle';
 
+import {schemaVersion} from '../Schemas';
+
 const Realm = require('realm');
 
 const sliderText = {
@@ -45,9 +47,24 @@ export function HomeScreen() {
   const [inputFields, setInput] = useState({});
   const [realm, setRealm] = useState(null);
 
-  const inputHandler = input => {
-    setInput(input);
-  };
+  useEffect(() => {
+    Realm.open({
+      schema: [],
+      schemaVersion,
+      deleteRealmIfMigrationNeeded: true,
+    }).then(r => {
+      console.log('opened realm');
+      setRealm(r);
+    });
+
+    return () => {
+      if (realm !== null && !realm.isClosed) {
+        console.log('closed realm');
+        realm.close();
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // empty dependency array used to ensure realm only opened once
 
   const refs = [];
 
@@ -130,11 +147,11 @@ export function HomeScreen() {
           types={types[sliderState]}
           choices={choices[sliderState]}
           labels={labels[sliderState]}
-          inputHandler={inputHandler}
+          inputHandler={setInput}
           refs={refs}
         />
       </View>
-        <View style={{height: 20}} />
+      <View style={{height: 20}} />
     </View>
   );
 }
