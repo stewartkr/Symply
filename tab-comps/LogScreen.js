@@ -1,12 +1,19 @@
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-
-import List from "../List"
+import ListTemplate from '../list-template/ListTemplate';
+import TopBar from '../navigation/TopBar'
 
 export function LogScreen() {
+
+  const logs = [
+    {text:'nausea', key:'1'},
+    {text: 'upset stomach', key: '2'},
+    {text: 'headache', key: '3'}
+  ];
   return (
-    <View style={{ flex: 1}}>
-      <List />
+    <View style={{flex: 1}}>
+      <TopBar pageName='Log' />
+      <ListTemplate listItems={logs}/>
     </View>
   );
 }

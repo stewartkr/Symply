@@ -8,7 +8,7 @@ import { ProfileScreen } from "../tab-comps/ProfileScreen";
 import { LogScreen } from "../tab-comps/LogScreen";
 
 export default function BottomBar() {
-  
+
   const Tab = createBottomTabNavigator(
   );
 
