@@ -1,15 +1,20 @@
 import React, {useState, useEffect} from 'react';
-import {Text, SafeAreaView, View, Button, StyleSheet, Picker, FlatList} from 'react-native';
+import {
+  Text,
+  SafeAreaView,
+  View,
+  Button,
+  StyleSheet,
+  FlatList,
+} from 'react-native';
 import Slider from '@react-native-community/slider';
 import {Dropdown} from 'react-native-material-dropdown';
 import {GlobalColors, GlobalStyle} from '../assets/GlobalStyle';
 import TopBar from '../navigation/TopBar';
-import { DEBUG } from '../debug/debugStatus';
+import {DEBUG} from '../debug/debugStatus';
 import TestRealmButtons from '../debug/TestRealmButtons';
 
-import {
-  defaultOpenParams
-} from '../realm/DatabaseConfig';
+import {defaultOpenParams} from '../realm/DatabaseConfig';
 
 const Realm = require('realm');
 
@@ -98,37 +103,39 @@ export function HomeScreen() {
     ],
   ];
 
-  function populateIncidentChoices(realm) {
-    let iter;
+  function populateIncidentChoices() {
     let schemaNumber = 0;
-    let incChoices = choices[0];
     let incTypes = types[0];
 
-    for (const schemaName of incTypes){
-      schemaNumber++;
-      // TESTING
-      console.log(realm)
-      iter = realm.objects(schemaName).values();
+    for (const schemaName of incTypes) {
+      console.log(
+        `Retrieving objects with schema ${schemaName} from realm ${realm}`,
+      );
+
+      const iter = realm.objects(schemaName);
+
+      console.log(`Retrieved: ${iter}`);
       for (const entry of iter) {
         if (schemaName === 'Provider') {
-          incChoices[schemaNumber].push({
-            value: entry.firstName + ' ' + entry.lastName
-          })
+          choices[0][schemaNumber].push({
+            value: entry.firstName + ' ' + entry.lastName,
+          });
         } else {
-          incChoices[schemaNumber].push({
-            value: entry.name
-          })
+          choices[0][schemaNumber].push({
+            value: entry.name,
+          });
         }
       }
+      console.log(choices[0][schemaNumber]);
+      schemaNumber++;
     }
   }
 
   useEffect(() => {
-    Realm.open(defaultOpenParams)
-    .then(r => {
+    Realm.open(defaultOpenParams).then(r => {
       console.log('opened realm');
       setRealm(r);
-      populateIncidentChoices(r);
+      populateIncidentChoices();
     });
 
     return () => {
@@ -185,7 +192,7 @@ export function HomeScreen() {
         </View>
         <View style={{height: 20}} />
       </View>
-      {DEBUG ? <TestRealmButtons/> : <View/>}
+      {DEBUG ? <TestRealmButtons /> : <View />}
     </SafeAreaView>
   );
 }
