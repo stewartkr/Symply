@@ -1,4 +1,4 @@
-import React, { useState, Component }      from 'react';
+import React, { useState }                 from 'react';
 import { View, Text, TextInput,
         StyleSheet, KeyboardAvoidingView } from 'react-native';
 import AsyncStorage                        from '@react-native-community/async-storage';

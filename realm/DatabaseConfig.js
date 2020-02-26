@@ -10,7 +10,7 @@ const dataEnum = {
   },
 };
 
-const schemaVersion = 1;
+const schemaVersion = 2;
 
 const Treatment = {
   name: 'Treatment',
@@ -19,7 +19,7 @@ const Treatment = {
     medication: 'bool',
     dose: 'int?',
     doseUnit: 'string?',
-    tags: 'string?[]', // QUESTION: Is this still the way we want to do this? It feels weird to have a full list of Objects for every other property, plus linking directly gives an advantage: https://realm.io/docs/javascript/4.0.0-beta/api/Realm.html#~PropertyType (sb)
+    tags: 'Tag[]',
     start: 'date?',
     end: 'date?',
     status: {type: 'int', default: 0}, // dataEnum.status
@@ -30,7 +30,7 @@ const Symptom = {
   name: 'Symptom',
   properties: {
     name: 'string',
-    tags: 'string?[]',
+    tags: 'Tag[]',
     status: {type: 'int', default: 0}, // dataEnum.status
   },
 };
@@ -38,14 +38,12 @@ const Symptom = {
 const Incident = {
   name: 'Incident',
   properties: {
-    symptoms: 'Symptom[]', /* NOTE: Arrays of custom type cannot be nullable on realmjs (https://stackoverflow.com/questions/54447498/realm-property-dummy-of-type-array-cannot-be-nullable) (sb)
-                                     They can be assigned the empty array, however, which allows for very similar functionality.
-                             */
+    symptoms: 'Symptom[]',
     providers: 'Provider[]',
     treatments: 'Treatment[]',
     notes: 'Note[]',
     severity: 'int',
-    tags: 'string?[]',
+    tags: 'Tag[]',
     logDate: 'date',
   },
 };
@@ -91,7 +89,7 @@ const Task = {
   name: 'Task',
   properties: {
     todo: 'string',
-    treatment: 'Treatment',
+    treatment: 'Treatment?',
   },
 };
 
@@ -104,14 +102,6 @@ const Tag = {
   },
 };
 
-const Contact = {
-  name: 'Contact',
-  properties: {
-    type: 'string',
-    content: 'string',
-  },
-};
-
 const Provider = {
   name: 'Provider',
   properties: {
@@ -121,6 +111,14 @@ const Provider = {
     contacts: 'Contact[]',
     occupation: 'string?',
     photo: 'string?',
+  },
+};
+
+const Contact = {
+  name: 'Contact',
+  properties: {
+    type: 'string',
+    content: 'string',
   },
 };
 
@@ -141,9 +139,7 @@ const Note = {
   },
 };
 
-export {
-  schemaVersion,
-  dataEnum,
+const allSchemas = {
   Treatment,
   Symptom,
   Incident,
@@ -158,3 +154,10 @@ export {
   Provider,
   Task,
 };
+
+const defaultOpenParams = {
+  schema: Object.values(allSchemas),
+  schemaVersion,
+};
+
+export {dataEnum, schemaVersion, allSchemas, defaultOpenParams};

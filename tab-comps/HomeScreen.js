@@ -1,11 +1,20 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, Button, StyleSheet, Picker, FlatList} from 'react-native';
+import {
+  Text,
+  SafeAreaView,
+  View,
+  Button,
+  StyleSheet,
+  FlatList,
+} from 'react-native';
 import Slider from '@react-native-community/slider';
 import {Dropdown} from 'react-native-material-dropdown';
 import {GlobalColors, GlobalStyle} from '../assets/GlobalStyle';
 import TopBar from '../navigation/TopBar';
+import {DEBUG} from '../debug/debugStatus';
+import TestRealmButtons from '../debug/TestRealmButtons';
 
-import {schemaVersion} from '../Schemas';
+import {defaultOpenParams, allSchemas} from '../realm/DatabaseConfig';
 
 const Realm = require('realm');
 
@@ -43,19 +52,117 @@ const styles = StyleSheet.create({
 });
 
 export function HomeScreen() {
+  // consts setup
+  const refs = []; // TODO: Add context for the purpose of this?
+
+  const types = [
+    ['Symptom', 'Provider', 'Treatment', 'Tag'],
+    ['Sleep', 'Diet', 'Activity', 'Tag'], // note: only last two are populated from realm. structure such that all manually-set vars come first.
+  ];
+  // store the index of the first realm-populated field described in types[1]
+  const reflectSchemaStartIndex = 2;
+
+  const labels = [
+    ['I feel...', 'I can talk to...', 'I can try...', 'Tags'],
+    ['Last night, I slept...', 'Today, my diet was...', 'Today, I...', 'Tags'],
+  ];
+
+  const baseReflectChoices = [
+    // reflection recording choices
+    [ // sleep duration
+      {value: '>12 hours'},
+      {value: '10-12 hours'},
+      {value: '8-10 hours'},
+      {value: '6-8 hours'},
+      {value: '4-6 hours'},
+      {value: '<4 hours'},
+    ],
+    [ // diet quality
+      {value: 'Great'},
+      {value: 'Good'},
+      {value: 'Okay'},
+      {value: 'Poor'},
+      {value: 'Bad'},
+    ],
+    // Start of Realm-populated fields
+    [], // activities
+    [], // reflection tags
+  ];
+
+  // state setup
   const [sliderState, setSlider] = useState(0);
-  const [sliderValue, setValue] = useState(5);
+  const [sliderValue, setValue] = useState(5); // TODO: Neither this nor the var below is used, though the setters are called. Do the values have a function? (sb)
   const [inputFields, setInput] = useState({});
+  const [incidentChoices, setIncidentChoices] = useState([]);
+  const [reflectChoices, setReflectChoices] = useState([]);
   const [realm, setRealm] = useState(null);
 
+  // setup functions
+  function populateIncidentChoices(realm) {
+    let schemaNumber = 0;
+    let incTypes = types[0];
+    let newIncidentChoices = [[],[],[],[]];
+
+    for (const schemaName of incTypes) {
+      console.log(
+        `Retrieving objects with schema ${schemaName} from realm ${realm}`,
+      );
+
+      const iter = realm.objects(schemaName); // TODO: Add filtering such that only Tags with 'Incident' in the associates field are returned
+
+      console.log(`Retrieved: ${iter}`);
+      for (const entry of iter) {
+        if (schemaName === 'Provider') {
+          newIncidentChoices[schemaNumber].push({
+            value: entry.firstName + ' ' + entry.lastName,
+          });
+        } else {
+          newIncidentChoices[schemaNumber].push({
+            value: entry.name,
+          });
+        }
+      }
+      schemaNumber++;
+    }
+    setIncidentChoices(newIncidentChoices);
+  }
+
+  function populateReflectChoices(realm) {
+    let schemaNumber = reflectSchemaStartIndex;
+    let reflectTypes = types[1].slice(reflectSchemaStartIndex);
+    let tempReflect = baseReflectChoices;
+
+    for (const schemaName of reflectTypes) {
+      console.log(
+        `Retrieving objects with schema ${schemaName} from realm ${realm}`,
+      );
+
+      const iter = realm.objects(schemaName); // TODO: Add filtering such that only Tags with 'Reflection' in the associates field are 
+
+      console.log(`Retrieved: ${iter}`);
+      for (const entry of iter) {
+        if (schemaName === 'Provider') {
+          tempReflect[schemaNumber].push({
+            value: entry.firstName + ' ' + entry.lastName,
+          });
+        } else {
+          tempReflect[schemaNumber].push({
+            value: entry.name,
+          });
+        }
+      }
+      schemaNumber++;
+    }
+    setReflectChoices(tempReflect);
+  }
+
+  // set up realm on component mount, close it on component unmount
   useEffect(() => {
-    Realm.open({
-      schema: [],
-      schemaVersion,
-      deleteRealmIfMigrationNeeded: true,
-    }).then(r => {
+    Realm.open(defaultOpenParams).then(r => {
       console.log('opened realm');
       setRealm(r);
+      populateIncidentChoices(r);
+      populateReflectChoices(r);
     });
 
     return () => {
@@ -67,52 +174,9 @@ export function HomeScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // empty dependency array used to ensure realm only opened once
 
-  const refs = [];
-
-  const types = [
-    ['Symptom', 'Provider', 'Treatment', 'Tag'],
-    ['Sleep', 'Diet', 'Activity', 'Tag'],
-  ];
-
-  const labels = [
-    ['I feel...', 'I can talk to...', 'I can try...', 'Tags'],
-    ['Last night, I slept...', 'Today, my diet was...', 'Today, I...', 'Tags'],
-  ];
-
-  const choices = [
-    [
-      [{value: 'Stomachache'}, {value: 'Headache'}, {value: 'Heartburn'}],
-      [{value: 'John Smith'}, {value: 'Michelle Alphabet'}],
-      [{value: 'Soup'}],
-      [{value: 'Physical'}, {value: 'Mental'}],
-    ],
-    [
-      [
-        {value: '>12 hours'},
-        {value: '10-12 hours'},
-        {value: '8-10 hours'},
-        {value: '6-8 hours'},
-        {value: '4-6 hours'},
-        {value: '<4 hours'},
-      ],
-      [
-        {value: 'Great'},
-        {value: 'Good'},
-        {value: 'Okay'},
-        {value: 'Poor'},
-        {value: 'Bad'},
-      ],
-      [
-        {value: 'Exercised'},
-        {value: 'Socialized'},
-        {value: 'Played videogames'},
-      ],
-      [{value: 'Good Day'}, {value: 'Bad Day'}],
-    ],
-  ];
-
+  // display
   return (
-    <View style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1}}>
       <TopBar pageName="Home" />
       <View style={[GlobalStyle.container, {alignItems: 'center'}]}>
         <View style={styles.sliderBox}>
@@ -148,7 +212,7 @@ export function HomeScreen() {
           }}>
           <IncidentContainer
             types={types[sliderState]}
-            choices={choices[sliderState]}
+            choices={sliderState == 0 ? incidentChoices : reflectChoices}
             labels={labels[sliderState]}
             inputHandler={setInput}
             refs={refs}
@@ -156,7 +220,8 @@ export function HomeScreen() {
         </View>
         <View style={{height: 20}} />
       </View>
-    </View>
+      {DEBUG ? <TestRealmButtons /> : <View />}
+    </SafeAreaView>
   );
 }
 
