@@ -3,20 +3,7 @@ import { StyleSheet, View, FlatList } from 'react-native';
 import SymptomItem from './list-components/SymptomItem'
 import AddSymptom from './list-components/AddSymptom'
 
-export default function List({listItems}) {
-
-  const pressHandler = (key) => {
-    console.log("press handler stub");
-    var item = null;
-    i = 0;
-    while (item == null  &&  i < listItems.length) {
-      if (listItems[i].key == key) {
-        item = listItems[i];
-      }
-      i ++;
-    }
-    console.log("list item is " + item.text);
-  }
+export default function List({listItems, pressHandler}) {
 
 
   return (

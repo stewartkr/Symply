@@ -1,12 +1,41 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {Dropdown} from 'react-native-material-dropdown';
+
+
+
+/*
+<Dropdown
+  containerStyle={styles.dropDown}
+  inputContainerStyle={{ borderBottomColor: 'transparent' }}
+  label={description}
+  labelPadding={0}
+  labelHeight={5}
+  data={['a, b, c']}
+/>
+*/
+
+
 
 
 export default function ListSettings( {description, pressHandler, listItems}){
-    return(
-      <TouchableOpacity style={{flex: 1}} onPress={() => pressHandler()}>
-        <View style={styles.dropDown}>
+
+
+  /*const MyView = ({hide}) => {
+    if (hide) {
+      return null;
+    }
+    return (
+      <View >
+        <Text>{"here is some text"}</Text>
+      </View>
+    );
+  };*/
+
+  return(
+    <TouchableOpacity activeOpacity={1} style={{flex: 1}} onPress={() => pressHandler()}>
+      <View style={styles.dropDown}>
           <View style={styles.verticalCenter}>
               <Text style={styles.menuText}>
                   {description}
@@ -15,16 +44,15 @@ export default function ListSettings( {description, pressHandler, listItems}){
                 <Icon name='ios-arrow-down' style={styles.rightArrow} />
               </View>
           </View>
-        </View>
-      </TouchableOpacity>
-    )
+      </View>
+    </TouchableOpacity>
+  )
 }
 
 
 
 const styles = StyleSheet.create({
     dropDown: {
-      flexGrow: 1,
       height: 40,
       backgroundColor: '#cfd8dc'
     },
