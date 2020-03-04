@@ -87,9 +87,9 @@ const cronRepeats = cron => {
 
 const taskNum = (taskText, taskLen) => {
   if (taskLen === 1) {
-    return `${taskText} (${taskLen} task)`;
+    return `${taskText}`;
   }
-  return `${taskText} (${taskLen} tasks)`;
+  return `${taskText}`;
 };
 
 export default function ReminderItem({reminder, deleteHandler}) {
