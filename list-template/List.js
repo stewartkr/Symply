@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
 import SymptomItem from './list-components/SymptomItem'
-import AddSymptom from './list-components/AddSymptom'
-
-export default function List({listItems, pressHandler}) {
 
 
+export default function List({listItems}) {
+  console.log('in list');
+  
   return (
     <View style={styles.container}>
         <View style={styles.listBody}>
           <FlatList
             data = {listItems}
             renderItem={({ item })=>(
-              <SymptomItem item={item} pressHandler = {pressHandler}/>
+              <SymptomItem item={item}/>
             )}
           />
         </View>
