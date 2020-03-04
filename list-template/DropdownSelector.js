@@ -1,37 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Dropdown} from 'react-native-material-dropdown';
 
 
-
-/*
-<Dropdown
-  containerStyle={styles.dropDown}
-  inputContainerStyle={{ borderBottomColor: 'transparent' }}
-  label={description}
-  labelPadding={0}
-  labelHeight={5}
-  data={['a, b, c']}
-/>
-*/
-
-
-
-
-export default function ListSettings( {description, pressHandler, listItems}){
-
-
-  /*const MyView = ({hide}) => {
-    if (hide) {
-      return null;
-    }
-    return (
-      <View >
-        <Text>{"here is some text"}</Text>
-      </View>
-    );
-  };*/
+export default function DropdownSelector( {description, pressHandler, listItems}){
 
   return(
     <TouchableOpacity activeOpacity={1} style={{flex: 1}} onPress={() => pressHandler()}>

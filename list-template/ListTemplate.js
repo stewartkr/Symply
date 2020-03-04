@@ -2,28 +2,33 @@ import React, {useState} from 'react';
 import { TextInput, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 import List from './List';
-import ListSettings from './ListSettings';
+import DropdownSelector from './DropdownSelector';
+import DropdownList from './DropdownList';
 
 
 export default function ListTemplate({listItems}) {
 
-  const [pleaseHide, hideFunct] = useState(true);
+  const [displaySorts, sortDisplayFunct] = useState(false);
+
+  const [displayFilters, filterDisplayFunct] = useState(false);
 
   const [items, pressFunct] = useState(listItems);
 
-  const [dropdownSelected, dropdownSelector] = useState("");
+  const [dropdownItemSelected, setDropdownItemSelected] = useState("");
 
-  const tempList = [
-    {text:'firstThing', key:'1'},
-    {text: 'second', key: '2'},
-    {text: 'third', key: '3'},
-    {text:'firstThing', key:'4'},
-    {text: 'second', key: '5'},
-    {text: 'third', key: '6'},
-    {text:'firstThing', key:'7'},
-    {text: 'second', key: '8'},
-    {text: 'third', key: '9'}
-  ];
+  const sortAZ = '1';
+  const sortZA = '2';
+
+
+  const sortOptions = [
+    {text: 'Name A-Z', key: sortAZ},
+    {text: 'Name Z-A', key: sortZA}
+  ]
+
+  const filterOptions = [
+    {text: 'filter1', key: '1'},
+    {text: 'filter2', key: '2'}
+  ]
 
   const ConsoleLog = (list) => {
     console.log("reload");
@@ -41,27 +46,20 @@ export default function ListTemplate({listItems}) {
       if (listItems[i].key == key) {
         item = listItems[i];
       }
-      i ++;var item = null;
-    i = 0;
-    while (item == null  &&  i < listItems.length) {
-      if (listItems[i].key == key) {
-        item = listItems[i];
-      }
       i ++;
-    }
     }
     console.log("list item is " + item.text);
   }
 
 
   /*when user presses a specific item on the dropdown list*/
-  const dropdownListPress = (key) => {
-    console.log("actual dropdown press handler");
+  const filterItemPress = (key) => {
+    console.log("filter by press");
     var item = null;
     i = 0;
-    while (item == null  &&  i < tempList.length) {
-      if (tempList[i].key == key) {
-        item = tempList[i];
+    while (item == null  &&  i < filterOptions.length) {
+      if (filterOptions[i].key == key) {
+        item = filterOptions[i];
       }
       i ++;
     }
@@ -69,54 +67,69 @@ export default function ListTemplate({listItems}) {
       console.log("uh oh item is null");
     }
     else {
-      dropdownSelector(item.text);
+      setDropdownItemSelected(item.text);
     }
-    hideFunct(true);
+
+  }
+
+
+
+  const sortItemPress = (key) => {
+    console.log("sort by press");
+    var item = null;
+    i = 0;
+    while (item == null  &&  i < sortOptions.length) {
+      if (sortOptions[i].key == key) {
+        item = sortOptions[i];
+      }
+      i ++;
+    }
+    if (item == null) {
+      console.log("uh oh item is null");
+    }
+    else {
+      setDropdownItemSelected(item.text);
+    }
+    sortDisplayFunct(false);
 
   }
 
 
 
   /*remove later*/
-  const MyView = ({hide}) => {
-    if (hide) {
+  const DropdownDisplay = ({display, dropdownItems, onClick}) => {
+    if (!display) {
       return null;
     }
-    console.log("should display")
+    console.log("should display");
     return (
       <View style={{position: 'absolute', top: 90, width: '100%'}}>
-        <List listItems={tempList} pressHandler={dropdownListPress} />
+        <DropdownList listItems={dropdownItems} pressHandler={onClick} />
       </View>
     );
   }
-  /*function ListOptions() {
 
 
-    const optionStyles = StyleSheet.create({
-
-    })
-  }*/
-
-
-  /* returning !change is essential to tell the array that the state changed*/
-  function onPress() {
-    console.log(items);
-    const temp = items[0];
-    items[0] = items[1];
-    items[1] = temp;
-    var newItems = [];
-    if (newItems === items) {
-      console.log("new items equal old items");
+  function showHideFilters() {
+    if (displaySorts) {
+      sortDisplayFunct(false);
     }
     else {
-      console.log("new items do not equal old items");
+      filterDisplayFunct(!displayFilters);
     }
-    for (item of items) {
-      newItems.push(item)
-    }
-    hideFunct(!pleaseHide); //change later
-    return newItems;
   }
+
+
+  function showHideSort() {
+    if (displayFilters) {
+      filterDisplayFunct(false);
+    }
+    else {
+      sortDisplayFunct(!displaySorts);
+    }
+  }
+
+
   return (
     <View style={{ flex: 1}}>
       <ConsoleLog>{items}</ConsoleLog>
@@ -124,12 +137,13 @@ export default function ListTemplate({listItems}) {
         placeholder='Search...'
       />
       <View style={styles.flexRow}>
-        <ListSettings description='Tags' pressHandler = {() => pressFunct(onPress)} listItems = {items} />
-        <ListSettings description='Sort by' pressHandler = {() => pressFunct(onPress)} listItems = {items}/>
+        <DropdownSelector description='Tags' pressHandler = {showHideFilters} listItems = {items} />
+        <DropdownSelector description='Sort by' pressHandler = {showHideSort} listItems = {items}/>
       </View>
       <List listItems={items} pressHandler={listPressHandler}/>
-      <Text>Just selected: {dropdownSelected}</Text>
-      <MyView hide={pleaseHide} />
+      <Text>Just selected: {dropdownItemSelected}</Text>
+      <DropdownDisplay display={displaySorts} dropdownItems={sortOptions} onClick={sortItemPress}/>
+      <DropdownDisplay display={displayFilters} dropdownItems={filterOptions} onClick={filterItemPress} />
     </View>
   );
 }
