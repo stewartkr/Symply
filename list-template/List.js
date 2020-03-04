@@ -7,7 +7,6 @@ export default function List({listItems}) {
   console.log('in list');
   
   return (
-    /*list content*/
     <View style={styles.container}>
         <View style={styles.listBody}>
           <FlatList
@@ -24,31 +23,8 @@ export default function List({listItems}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    /*backgroundColor: "#9bcdd5"*/
   },
   listBody:{
     marginTop: 2
   }
 });
-
-
-
-/*extra Mario stuff (currently removed -- maybe useful as an example/showing how things work)*/
-/*
-// Removes Item corresponding  to Key
-
-
-
-
-const submitSymp = (text) => {
-  setSymptom((prevsymptoms) => {
-    return [
-      {text: text, key: Math.random().toString()},
-      ...prevsymptoms
-    ]
-  });
-}
-
-
-
-*/
