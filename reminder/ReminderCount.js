@@ -2,13 +2,19 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import {GlobalColors, GlobalStyle} from '../assets/GlobalStyle';
 
-export default function ReminderCount({countToday}) {
-  const reminderNum = reminderLen => {
-    if (reminderLen === 1) {
-      return 'reminder coming up today';
-    }
-    return 'reminders coming up today';
-  };
+import {reminderIsToday} from '../tab-comps/ReminderScreen';
+
+const countText = reminderLen => {
+  if (reminderLen === 1) {
+    return 'reminder coming up today';
+  }
+  return 'reminders coming up today';
+};
+
+export default function ReminderCount({reminderList}) {
+  const remindersToday = reminderList.filter(reminder =>
+    reminderIsToday(reminder.schedule),
+  );
 
   return (
     <View style={[GlobalStyle.container, {top: 0}]}>
@@ -24,14 +30,14 @@ export default function ReminderCount({countToday}) {
           GlobalStyle.titleText,
           {fontWeight: 'bold', color: GlobalColors.softWhite, fontSize: 40},
         ]}>
-        {countToday}
+        {remindersToday.length}
       </Text>
       <Text
         style={[
           GlobalStyle.titleText,
           {color: GlobalColors.softWhite, fontSize: 35},
         ]}>
-        {reminderNum(countToday)}
+        {countText(remindersToday.length)}
       </Text>
     </View>
   );

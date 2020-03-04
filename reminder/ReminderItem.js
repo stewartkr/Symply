@@ -1,6 +1,8 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {GlobalColors, GlobalStyle} from '../assets/GlobalStyle';
+
+import {reminderIsToday} from '../tab-comps/ReminderScreen';
 
 const styles = StyleSheet.create({
   reminderContainer: {
@@ -25,40 +27,36 @@ const styles = StyleSheet.create({
   },
 });
 
+const dayOfWeek = date => {
+  switch (date) {
+    case 0:
+      return 'Sunday';
+    case 1:
+      return 'Monday';
+    case 2:
+      return 'Tuesday';
+    case 3:
+      return 'Wednesday';
+    case 4:
+      return 'Thursday';
+    case 5:
+      return 'Friday';
+    case 6:
+      return 'Saturday';
+  }
+};
+
 const dayIfNotToday = cron => {
   const today = new Date(Date.now());
   const parts = cron.split(' ');
 
-  const cronMonth = parts[3];
-  const cronDate = parts[2];
-
-  if (
-    cronMonth !== '*' &&
-    cronMonth !== parseInt(today.getMonth(), 10) + 1 &&
-    (cronDate !== '*' && cronDate !== parseInt(today.getDate(), 10))
-  ) {
-    const dayOfWeek = date => {
-      switch (date) {
-        case 0:
-          return 'Sunday';
-        case 1:
-          return 'Monday';
-        case 2:
-          return 'Tuesday';
-        case 3:
-          return 'Wednesday';
-        case 4:
-          return 'Thursday';
-        case 5:
-          return 'Friday';
-        case 6:
-          return 'Saturday';
-      }
-    };
-
-    return `${dayOfWeek(today.getDay())}, `;
+  if (!reminderIsToday(cron)) {
+    if (parts[2] === '*' && parts[3] === '*' && parts[4] === '*') {
+      return `${dayOfWeek(parseInt(today.getDay(), 10) + 1)}, `;
+    }
+    return `${dayOfWeek(parseInt(parts[4], 10))}, `;
   }
-  return '';
+  return 'Today, ';
 };
 
 const cronToString = cron => {
@@ -94,10 +92,14 @@ const taskNum = (taskText, taskLen) => {
   return `${taskText} (${taskLen} tasks)`;
 };
 
-export default function ReminderItem({reminder}) {
+export default function ReminderItem({reminder, deleteHandler}) {
   return (
     <View style={[GlobalStyle.container, styles.reminderContainer]}>
-      <View style={styles.reminderBox}>
+      <TouchableOpacity
+        style={styles.reminderBox}
+        onPress={() => {
+          deleteHandler(reminder);
+        }}>
         <Text style={[styles.reminderFont, styles.reminderTasks]}>
           {taskNum(reminder.text, reminder.tasks.length)}
         </Text>
@@ -106,7 +108,7 @@ export default function ReminderItem({reminder}) {
           {cronToString(reminder.schedule)}
           {cronRepeats(reminder.schedule)}
         </Text>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }

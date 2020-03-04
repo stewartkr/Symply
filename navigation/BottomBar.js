@@ -6,7 +6,7 @@ import { HomeScreen } from "../tab-comps/HomeScreen";
 import { AppointmentScreen } from "../tab-comps/AppointmentScreen";
 import ProfileNavigator from "../tab-comps/ProfileScreen.js";
 import { LogScreen } from "../tab-comps/LogScreen";
-import { ReminderScreen } from "../tab-comps/ReminderScreen";
+import ReminderScreen from "../tab-comps/ReminderScreen";
 
 
 
