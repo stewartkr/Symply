@@ -213,7 +213,6 @@ export default function ListTemplate({listItems}) {
         <DropdownSelector iconName={sortArrowPosition} description='Sort by' pressHandler = {showHideSort} listItems = {items}/>
       </View>
       <List listItems={items} pressHandler={listPressHandler}/>
-      <Text>Just selected: {dropdownItemSelected}</Text>
       <DropdownDisplay display={displaySorts} dropdownItems={sortOptions} onClick={sortItemPress}/>
       <DropdownDisplay display={displayFilters} dropdownItems={filterOptions} onClick={filterItemPress} />
     </View>
