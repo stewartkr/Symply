@@ -1,33 +1,19 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
 import SymptomItem from './list-components/SymptomItem'
-import AddSymptom from './list-components/AddSymptom'
+
 
 export default function List({listItems}) {
-  const [symptoms, setSymptom] = useState(listItems);
-  /*const [symptoms, setSymptom] = useState([
-    {text:'nausea', key:'1'},
-    {text: 'upset stomach', key: '2'},
-    {text: 'headache', key: '3'}
-  ]);*/
-
-
-
-  const pressHandler = (key) => {
-    setSymptom((prevsymptoms) => {
-      return prevsymptoms.filter(todo => todo.key != key);
-    });
-  }
-
-
+  console.log('in list');
+  
   return (
     /*list content*/
     <View style={styles.container}>
         <View style={styles.listBody}>
           <FlatList
-            data = {symptoms}
+            data = {listItems}
             renderItem={({ item })=>(
-              <SymptomItem item={item} pressHandler = {pressHandler}/>
+              <SymptomItem item={item}/>
             )}
           />
         </View>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Button, Text } from 'react-native';
+import { StyleSheet, View, Button, Text, TouchableOpacity } from 'react-native';
 
 function Greeting({name}){
     return(
@@ -15,19 +15,26 @@ function Profile({navigation}){
             <Greeting name='User'/>
         <View style={styles.navButtons}>
             <View style={styles.buttonContainer}>
-                <View style={styles.realButtonContainer}>
-                    <Button color='grey' title='Your Treatments' onPress={() => navigation.navigate('Treatments')}/>
-                </View>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('Treatments')}
+                    >
+                    <Text style={styles.buttonText}>Your Treatments</Text>
+                    </TouchableOpacity>
+
             </View>
             <View style={styles.buttonContainer}>
-                <View style={styles.realButtonContainer}>
-                    <Button color='grey' title='Your Providers' onPress={() => navigation.navigate('Providers')}/>
-                </View>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('Providers')}
+                    >
+                    <Text style={styles.buttonText}>Your Providers</Text>
+                    </TouchableOpacity>
             </View>
             <View style={styles.buttonContainer}>
-                <View style={styles.realButtonContainer}>
-                    <Button color='grey' title='Preferences' onPress={() => navigation.navigate('Preferences')}/>
-                </View>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('Preferences')}
+                    >
+                    <Text style={styles.buttonText}>Preferences</Text>
+                    </TouchableOpacity>
             </View>
         </View>
         </View>
@@ -57,16 +64,18 @@ const styles = StyleSheet.create({
         fontSize:25
     },
     buttonContainer:{
-        backgroundColor:'grey',
+        backgroundColor:'#f7f7f0',
         borderRadius: 5,
         marginTop:15,
         width:400,
-        height:40
+        height:40,
+        alignItems:'center'
+
     },
-    realButtonContainer:{
-        flex:1,
-        justifyContent:'center',
-        backgroundColor: 'grey'
+    buttonText:{
+        fontSize:20,
+        color:'#5e5e5d',
+        lineHeight:40
     }
 
 });
