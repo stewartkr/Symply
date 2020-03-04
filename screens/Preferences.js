@@ -28,8 +28,10 @@ export default function Providers() {
     // if verifyingPin doesn't match prevPin, display error
     if(prevPin != verifyingPin){
       setError("Error: Previous PIN field does not match existing PIN.");
+      return;
     } else if(newPin1 != newPin2) {
       setError("Error: New PIN fields do not match.");
+      return;
     } else {
       // set new PIN
       if(newPin1 == null){
