@@ -2,8 +2,10 @@ import React, {useState, useEffect} from 'react';
 import {View} from 'react-native';
 import ReminderCount from '../reminder/ReminderCount';
 import ReminderList from '../reminder/ReminderList';
+import TopBar from '../navigation/TopBar';
 
-import {defaultOpenParams, allSchemas} from '../realm/DatabaseConfig';
+import {defaultOpenParams} from '../realm/DatabaseConfig';
+import {GlobalStyle} from '../assets/GlobalStyle';
 const Realm = require('realm');
 
 export function ReminderScreen() {
@@ -30,7 +32,8 @@ export function ReminderScreen() {
   }
 
   return (
-    <View>
+    <View style={GlobalStyle.container}>
+      <TopBar pageName="Reminders" />
       <ReminderCount countToday={currReminders.length} />
       <ReminderList reminderList={currReminders} />
     </View>

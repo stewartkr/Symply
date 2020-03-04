@@ -253,7 +253,7 @@ function populateRealm() {
       // create mock Reminder objects
       const reminder1 = realm.create(allSchemas.Reminder.name, {
         text: 'Sunday Morning',
-        schedule: '58**0', // every Sunday at 8:05am
+        schedule: '5 8 * * 0', // every Sunday at 8:05am
         tasks: [task1],
       })
       // TESTING
@@ -261,7 +261,7 @@ function populateRealm() {
 
       const reminder2 = realm.create(allSchemas.Reminder.name, {
         text: 'Body Checkup',
-        schedule: '520***', // every day at 8:05pm
+        schedule: '5 20 * * *', // every day at 8:05pm
         tasks: [task2],
       })
       // TESTING
