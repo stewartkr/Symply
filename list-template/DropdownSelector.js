@@ -3,17 +3,17 @@ import { StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 
-export default function DropdownSelector( {description, pressHandler, listItems}){
+export default function DropdownSelector( {description, pressHandler, listItems, iconName}){
 
   return(
-    <TouchableOpacity activeOpacity={1} style={{flex: 1}} onPress={() => pressHandler()}>
+    <TouchableOpacity activeOpacity={0.8} style={{flex: 1}} onPress={() => pressHandler()}>
       <View style={styles.dropDown}>
           <View style={styles.verticalCenter}>
               <Text style={styles.menuText}>
                   {description}
               </Text>
               <View>
-                <Icon name='ios-arrow-down' style={styles.rightArrow} />
+                <Icon name={iconName} style={styles.rightArrow} />
               </View>
           </View>
       </View>

@@ -16,6 +16,11 @@ export default function ListTemplate({listItems}) {
 
   const [dropdownItemSelected, setDropdownItemSelected] = useState("");
 
+  const [tagArrowPosition, setTagArrowPosition] = useState('ios-arrow-down');
+
+  const [sortArrowPosition, setSortArrowPosition] = useState('ios-arrow-down');
+
+
   const sortAZ = '1';
   const sortZA = '2';
 
@@ -34,6 +39,36 @@ export default function ListTemplate({listItems}) {
     console.log("reload");
     console.log(list);
     return false;
+  }
+
+
+  function swapArrow(position) {
+    var newVal = 'ios-arrow-up';
+    if (position == 'ios-arrow-up') {
+      newVal = 'ios-arrow-down';
+    }
+    return newVal;
+  }
+
+
+  function hideSortDisplay() {
+    sortDisplayFunct(false);
+    setSortArrowPosition('ios-arrow-down');
+  }
+
+  function hideFilterDisplay() {
+    filterDisplayFunct(false);
+    setTagArrowPosition('ios-arrow-down');
+  }
+
+  function showSortDisplay() {
+    sortDisplayFunct(true);
+    setSortArrowPosition('ios-arrow-up');
+  }
+
+  function showFilterDisplay() {
+    filterDisplayFunct(true);
+    setTagArrowPosition('ios-arrow-up');
   }
 
 
@@ -73,7 +108,7 @@ export default function ListTemplate({listItems}) {
   }
 
 
-
+  /*when user presses specific item on sort list*/
   const sortItemPress = (key) => {
     console.log("sort by press");
     var item = null;
@@ -89,9 +124,41 @@ export default function ListTemplate({listItems}) {
     }
     else {
       setDropdownItemSelected(item.text);
+      if(key == sortAZ) {
+        sortList();
+      }
+      else if(key == sortZA) {
+        sortListReverse();
+      }
     }
-    sortDisplayFunct(false);
+    hideSortDisplay();
 
+  }
+
+
+  function sortList() {
+    listItems.sort(function (a, b) {
+      return ('' + a.text).localeCompare(b.text);
+    });
+    const sortedItems = []
+    for(item of listItems) {
+      sortedItems.push(item)
+    }
+    pressFunct(sortedItems);
+  }
+
+
+  function sortListReverse() {
+    listItems.sort(function (a, b) {
+      return ('' + a.text).localeCompare(b.text);
+    });
+    const reverseSortedItems = [];
+    var i = listItems.length - 1;
+    while (i >= 0) {
+      reverseSortedItems.push(listItems[i])
+      i -= 1
+    }
+    pressFunct(reverseSortedItems);
   }
 
 
@@ -101,9 +168,8 @@ export default function ListTemplate({listItems}) {
     if (!display) {
       return null;
     }
-    console.log("should display");
     return (
-      <View style={{position: 'absolute', top: 90, width: '100%'}}>
+      <View style={{position: 'absolute', top: 85, width: '100%'}}>
         <DropdownList listItems={dropdownItems} pressHandler={onClick} />
       </View>
     );
@@ -112,20 +178,26 @@ export default function ListTemplate({listItems}) {
 
   function showHideFilters() {
     if (displaySorts) {
-      sortDisplayFunct(false);
+      hideSortDisplay();
+    }
+    else if(displayFilters){
+      hideFilterDisplay();
     }
     else {
-      filterDisplayFunct(!displayFilters);
+      showFilterDisplay();
     }
   }
 
 
   function showHideSort() {
     if (displayFilters) {
-      filterDisplayFunct(false);
+      hideFilterDisplay();
+    }
+    else if (displaySorts){
+      hideSortDisplay();
     }
     else {
-      sortDisplayFunct(!displaySorts);
+      showSortDisplay();
     }
   }
 
@@ -137,8 +209,8 @@ export default function ListTemplate({listItems}) {
         placeholder='Search...'
       />
       <View style={styles.flexRow}>
-        <DropdownSelector description='Tags' pressHandler = {showHideFilters} listItems = {items} />
-        <DropdownSelector description='Sort by' pressHandler = {showHideSort} listItems = {items}/>
+        <DropdownSelector iconName={tagArrowPosition} description='Tags' pressHandler = {showHideFilters} listItems = {items} />
+        <DropdownSelector iconName={sortArrowPosition} description='Sort by' pressHandler = {showHideSort} listItems = {items}/>
       </View>
       <List listItems={items} pressHandler={listPressHandler}/>
       <Text>Just selected: {dropdownItemSelected}</Text>
