@@ -6,7 +6,7 @@ export default function SymptomItem( { item, pressHandler}){
       <View style={styles.listItem}>
         <TouchableOpacity onPress={() => pressHandler(item.key)}>
             <Text style={styles.paleGrey}>
-                {item.text}
+                {item.name}
             </Text>
         </TouchableOpacity>
       </View>

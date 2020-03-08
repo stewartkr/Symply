@@ -10,12 +10,14 @@ import {
 
 // const Realm = require('realm');
 
-function AppointmentForm({ addAppoint }){
+function AppointmentForm({ addAppoint, goBack }){
 
     return(
+        
        <View style={styles.container}>  
+            <Text style={styles.formName}> New Appointment Information </Text>
            <Formik
-            initialValues = {{text:'', time:'', notes:''}}
+            initialValues = {{provider:'', time:'', notes:''}}
             onSubmit = {(values, actions) => {
                 console.log(values.provider);
                 actions.resetForm();
@@ -62,7 +64,7 @@ const styles = StyleSheet.create({
     container:{
         backgroundColor: GlobalColors.backgroundColor,
         flex:1,
-        justifyContent:'center',
+        paddingTop: 100,
         alignContent:'center'
     },
     textInputBox:{
@@ -71,13 +73,21 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         fontSize: 18,
         borderRadius: 6,
-        backgroundColor:'#EDEFEF'
+        backgroundColor:'#EDEFEF',
+        width: 400,
+        alignSelf: 'center'
     },
     addButton:{
         backgroundColor:'white',
         padding:10,
         width:200,
         left:100
+    },
+    formName: {
+        paddingBottom: 100,
+        textAlign: 'center',
+        fontSize: 50,
+        color: '#5e5e5d'
     }
 });
 

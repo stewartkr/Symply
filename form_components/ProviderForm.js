@@ -9,10 +9,11 @@ function ProviderForm({ addProvider }) {
 
     return (
         <View style={styles.container}>
+            <Text style={styles.formName}> New Provider Information </Text>
             <Formik
                 enableReinitialize
                 // rest of props for treatment form; , frequency:'', dosage:''
-                initialValues={{ text: '', field: '', address: '', primary_contact:'' }}
+                initialValues={{firstN: '', lastN:'', address:'', occupation:'' }}
                 onSubmit={(values, actions) => {
                     actions.resetForm();
                     addProvider(values);
@@ -23,16 +24,16 @@ function ProviderForm({ addProvider }) {
                     <View>
                         <TextInput
                             style={styles.textInputBox}
-                            placeholder='Provider Name'
+                            placeholder='First Name'
                             //two way data binding
-                            onChangeText={formProps.handleChange('text')}
+                            onChangeText={formProps.handleChange('firstN')}
                             value={formProps.values.text}
                         />
                         <TextInput
                             style={styles.textInputBox}
-                            placeholder='Specialization (?)'
+                            placeholder='Last Name'
                             //two way data binding
-                            onChangeText={formProps.handleChange('field')}
+                            onChangeText={formProps.handleChange('lastN')}
                             value={formProps.values.field}
                         />
                         <TextInput
@@ -44,9 +45,9 @@ function ProviderForm({ addProvider }) {
                         />
                         <TextInput
                             style={styles.textInputBox}
-                            placeholder='Contact Number'
+                            placeholder='Occupation/Specialty'
                             //two way data binding
-                            onChangeText={formProps.handleChange('primary_contact')}
+                            onChangeText={formProps.handleChange('occupation')}
                             value={formProps.values.primary_contact}
                         />
                         <TouchableOpacity
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: GlobalColors.backgroundColor,
         flex: 1,
-        justifyContent: 'center',
+        paddingTop: 100,
         alignContent: 'center'
     },
     textInputBox: {
@@ -75,13 +76,21 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         fontSize: 18,
         borderRadius: 6,
-        backgroundColor: '#EDEFEF'
+        backgroundColor: '#EDEFEF',
+        width: 400,
+        alignSelf: 'center'
     },
     addButton: {
         backgroundColor: 'white',
         padding: 10,
         width: 200,
         left: 100
+    },
+    formName: {
+        paddingBottom: 100,
+        textAlign: 'center',
+        fontSize: 50,
+        color: '#5e5e5d'
     }
 });
 

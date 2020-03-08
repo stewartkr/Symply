@@ -1,26 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, FlatList, Button, Text, Modal, TouchableOpacity } from 'react-native';
 import { grey } from 'color-name';
 import { GlobalColors } from '../assets/GlobalStyle';
 import ListTemplate from '../list-template/ListTemplate';
 import ProviderForm from "../form_components/ProviderForm";
 
+import { allSchemas, defaultOpenParams } from '../realm/DatabaseConfig';
+
+const Realm = require('realm');
+
 export default function Providers() {
     
     const [modalOpen, setModalOpen] = useState(false);
+    const [providers, setProvider] = useState(null);
+    const [realm, setRealm] = useState(null);
 
-    const [providers, setProvider] = useState([
-        { text: "Dr. Oz", field: 'phony', address: 'fakersvile', primary_contact: '555-555-5555', key: '1' },
-        { text: 'Dr. Phil', field: 'phony', address: 'fakersvile', primary_contact: '555-555-5555', key: '2' },
-        { text: 'Dr. Drew', field: 'phony', address: 'fakersvile', primary_contact: '555-555-5555', key: '3' }
-    ]);
+    useEffect(() => {
+        Realm.open(defaultOpenParams).then(realm => {
+            console.log('opened realm in Treatments');
+            setRealm(realm);
+            setProvider(realm.objects('Provider'));
+        });
+
+        return () => {
+            if (realm !== null && !realm.isClosed) {
+                console.log('closed realm');
+                realm.close();
+            }
+        };
+    }, []);
 
     //find better way of generating new key
     const addProvider = (providers) => {
-        providers.key = Math.random().toString();
-        setProvider((nextProvider) => {
-            return [providers, ...nextProvider];
-        })
+        realm.write(() => {
+            newTreatment = realm.create('Provider', {
+                firstName: appointments.firstN,
+                lastName: appointments.lastN,
+                address: appointments.address,
+                occupation: treatments.occupation
+            });
+        });
         setModalOpen(false);
     }
 
@@ -33,9 +52,9 @@ export default function Providers() {
                 <View style={{ flex: 1 }}>
                     <TouchableOpacity
                         onPress={() => { setModalOpen(false) }}
-                        style={{ marginTop: 50, alignSelf: 'flex-end' }}
+                        style={styles.backButton}
                     >
-                        <Text>Back</Text>
+                    <Text style={{ textAlign: 'center', fontSize: 20 }}>Back</Text>
                     </TouchableOpacity>
                     <ProviderForm addProvider={addProvider} />
                 </View>
@@ -43,8 +62,9 @@ export default function Providers() {
             <ListTemplate listItems={providers}/>
             <TouchableOpacity
                 onPress={() => { setModalOpen(true) }}
+                style={styles.addButton}
             >
-                <Text>Add Provider</Text>
+                <Text> Add Provider</Text>
             </TouchableOpacity>
         </View>
     );
@@ -54,5 +74,23 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#9bcdd5",
+    },
+    addButton: {
+        backgroundColor: 'white',
+        padding: 10,
+        width: 110,
+        marginBottom: 10,
+        borderRadius: 10,
+        left:10
+    },
+    backButton: {
+        marginTop: 50,
+        alignSelf: 'flex-end',
+        width: 55,
+        height: 35,
+        paddingTop: 5,
+        fontSize: 100,
+        borderRadius: 5,
+        right: 1
     }
 });

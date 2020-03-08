@@ -5,16 +5,17 @@ import SymptomItem from './list-components/SymptomItem'
 
 export default function List({listItems}) {
   console.log('in list');
-  
+  //console.log(listItems.length);
   return (
     /*list content*/
     <View style={styles.container}>
         <View style={styles.listBody}>
           <FlatList
             data = {listItems}
-            renderItem={({ item })=>(
+            renderItem={({ item, index })=>(
               <SymptomItem item={item}/>
             )}
+            keyExtractor={(item, index) => index.toString()}
           />
         </View>
     </View>

@@ -8,14 +8,15 @@ import { Formik, Form } from 'formik';
 function TreatmentForm({ addTreatments }){
 
     return(
+        
        <View style={styles.container}>  
+            <Text style={styles.formName}> New Treatment Information </Text>
            <Formik
            // rest of props for treatment form; , frequency:'', dosage:''
-                initialValues={{ text: '', frequency:'', dosage:''}}
-            onSubmit = {(values, actions) => {
+                initialValues={{ name: '', medication:'', dose:'', doseUnit:''}}
+                onSubmit = {(values, actions) => {
                 actions.resetForm();
-                addTreatments(values);
-                
+                addTreatments(values);  
             }}
            >
                {(formProps) => (
@@ -24,21 +25,20 @@ function TreatmentForm({ addTreatments }){
                             style={styles.textInputBox}
                             placeholder='Treatment Name'
                             //two way data binding
-                            onChangeText={formProps.handleChange('text')}
+                            onChangeText={formProps.handleChange('name')}
                             value={formProps.values.text}
                        />
                         <TextInput
                             style={styles.textInputBox}
-                            placeholder='Frequency'
-                            //two way data binding
-                            onChangeText={formProps.handleChange('frequency')}
+                            placeholder='Dose'
+                            onChangeText={formProps.handleChange('dose')}
                             value={formProps.values.frequency}
                         /> 
                         <TextInput
                             style={styles.textInputBox}
                             placeholder='Dosage (If applicable)'
                             //two way data binding
-                            onChangeText={formProps.handleChange('dosage')}
+                            onChangeText={formProps.handleChange('doseUnit')}
                             value={formProps.values.dosage}
                         />  
                         <TouchableOpacity
@@ -57,9 +57,9 @@ function TreatmentForm({ addTreatments }){
 const styles = StyleSheet.create({
     container: {
         backgroundColor: GlobalColors.backgroundColor,
-        flex: 1,
-        justifyContent: 'center',
-        alignContent: 'center'
+        alignContent: 'center',
+        flex:1,
+        paddingTop:100
     },
     textInputBox: {
         borderWidth: 1,
@@ -67,13 +67,21 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         fontSize: 18,
         borderRadius: 6,
-        backgroundColor: '#EDEFEF'
+        backgroundColor: '#EDEFEF',
+        width:400,
+        alignSelf:'center'
     },
     addButton: {
         backgroundColor: 'white',
         padding: 10,
         width: 200,
         left: 100
+    },
+    formName:{
+        paddingBottom:100,
+        textAlign:'center',
+        fontSize:50,
+        color: '#5e5e5d'
     }
 });
 
