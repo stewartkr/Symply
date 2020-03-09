@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, TextInput, Picker, TouchableOpacity, StyleSheet, Text} from 'react-native';
+import { View, TextInput, KeyboardAvoidingView, Picker, TouchableOpacity, StyleSheet, Text} from 'react-native';
 import { Dropdown } from 'react-native-material-dropdown';
 import { GlobalColors } from '../assets/GlobalStyle';
 import { Formik } from 'formik';
+import { ScrollView } from 'react-native-gesture-handler';
 import {
     defaultOpenParams,
     allSchemas,
@@ -13,8 +14,9 @@ import {
 function AppointmentForm({ addAppoint, goBack }){
 
     return(
-        
-       <View style={styles.container}>  
+      <KeyboardAvoidingView behavior="padding">
+        <ScrollView>
+          <View  style={styles.container}>
             <Text style={styles.formName}> New Appointment Information </Text>
            <Formik
             initialValues = {{provider:'', time:'', notes:''}}
@@ -56,7 +58,9 @@ function AppointmentForm({ addAppoint, goBack }){
                    </View>
                )}
            </Formik>
-       </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     );
 }
 

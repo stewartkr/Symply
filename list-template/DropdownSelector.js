@@ -1,30 +1,30 @@
 import React from 'react';
-import { StyleSheet, View, Text} from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 
-export default function Dropdown( {description/*, pressHandler*/}){
-    return(
+export default function DropdownSelector( {description, pressHandler, listItems, iconName}){
+
+  return(
+    <TouchableOpacity activeOpacity={0.8} style={{flex: 1}} onPress={() => pressHandler()}>
       <View style={styles.dropDown}>
-        { /*<TouchableOpacity onPress={() => pressHandler()}> */}
-        <View style={styles.verticalCenter}>
-            <Text style={styles.menuText}>
-                {description}
-            </Text>
-            <View>
-              <Icon name='ios-arrow-down' style={styles.rightArrow} />
-            </View>
-        </View>
-        {/*</TouchableOpacity>*/}
+          <View style={styles.verticalCenter}>
+              <Text style={styles.menuText}>
+                  {description}
+              </Text>
+              <View>
+                <Icon name={iconName} style={styles.rightArrow} />
+              </View>
+          </View>
       </View>
-    )
+    </TouchableOpacity>
+  )
 }
 
 
 
 const styles = StyleSheet.create({
     dropDown: {
-      flexGrow: 1,
       height: 40,
       backgroundColor: '#cfd8dc'
     },

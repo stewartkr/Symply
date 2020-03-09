@@ -1,6 +1,7 @@
 import React, { useState }                 from 'react';
 import { View, Text, TextInput,
-        StyleSheet, KeyboardAvoidingView } from 'react-native';
+        StyleSheet, KeyboardAvoidingView,
+        ScrollView } from 'react-native';
 import AsyncStorage                        from '@react-native-community/async-storage';
 
 import { GlobalStyle, GlobalColors }       from '../assets/GlobalStyle';
@@ -67,26 +68,28 @@ export default function LockScreen({ navigation }) {
   })
 
   return (
-    <KeyboardAvoidingView style={GlobalStyle.container}>
-      <View style={[LocalStyle.circle, LocalStyle.logoContainer]}>
-        <Text style={[GlobalStyle.titleText, {marginTop: '40%'}]}>
-          Symply
-        </Text>
-      </View>
-      <View style={LocalStyle.pinContainer}>
-        <Text style={[GlobalStyle.text, {fontSize: 40, textAlign: 'center', marginTop: '2%'}]}>
-          Enter PIN to{'\n'}unlock
-        </Text>
-        <View style={LocalStyle.pinTextInput}>
-          <TextInput
-            style={[GlobalStyle.text, {marginLeft: '4%'}]}
-            title="Pin"
-            secureTextEntry={true}
-            onChangeText={userInputChangeHandler}
-            placeholder="PIN"
-          />
+    <KeyboardAvoidingView style={GlobalStyle.container} behavior="padding">
+      <ScrollView>
+        <View style={[LocalStyle.circle, LocalStyle.logoContainer]}>
+          <Text style={[GlobalStyle.titleText, {marginTop: '40%'}]}>
+            Symply
+          </Text>
         </View>
-      </View>
+        <View style={LocalStyle.pinContainer}>
+          <Text style={[GlobalStyle.text, {fontSize: 40, textAlign: 'center', marginTop: '2%'}]}>
+            Enter PIN to{'\n'}unlock
+          </Text>
+          <View style={LocalStyle.pinTextInput}>
+            <TextInput
+              style={[GlobalStyle.text, {marginLeft: '4%'}]}
+              title="Pin"
+              secureTextEntry={true}
+              onChangeText={userInputChangeHandler}
+              placeholder="PIN"
+            />
+          </View>
+        </View>
+      </ScrollView>
     </KeyboardAvoidingView>
   )
 }

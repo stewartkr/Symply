@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, FlatList, Button, Text, Modal, TouchableOpacity } from 'react-native';
-import { grey } from 'color-name';
+import { StyleSheet, View, SafeAreaView, FlatList, Button, Text, Modal, TouchableOpacity } from 'react-native';
 import ListTemplate from '../list-template/ListTemplate';
 import TreatmentForm from '../form_components/TreatmentForm';
 
@@ -46,12 +45,12 @@ export default function Treatments() {
 
     return (
         /*list content*/
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <Modal
                 visible={modalOpen}
                 animationType='slide'
             >
-                <View style={{ flex: 1 }}>
+                <View style={styles.container}>
                     <TouchableOpacity
                         onPress={() => { setModalOpen(false) }}
                         style={styles.backButton}
@@ -68,7 +67,7 @@ export default function Treatments() {
             >
              <Text>Add Treatment</Text>
             </TouchableOpacity>
-        </View>
+        </SafeAreaView>
     );
 }
 

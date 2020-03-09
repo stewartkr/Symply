@@ -1,14 +1,17 @@
 import React from 'react';
-import { View, TextInput, Picker, TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { View, TextInput, KeyboardAvoidingView, Picker, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { Dropdown } from 'react-native-material-dropdown';
 import { GlobalColors } from '../assets/GlobalStyle';
 import { Formik, Form } from 'formik';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 function ProviderForm({ addProvider }) {
 
     return (
-        <View style={styles.container}>
+      <KeyboardAvoidingView behavior="padding">  
+        <ScrollView>
+          <View style={styles.container}>
             <Text style={styles.formName}> New Provider Information </Text>
             <Formik
                 enableReinitialize
@@ -59,7 +62,9 @@ function ProviderForm({ addProvider }) {
                     </View>
                 )}
             </Formik>
-        </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     );
 }
 

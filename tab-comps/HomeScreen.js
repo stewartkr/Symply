@@ -14,7 +14,7 @@ import TopBar from '../navigation/TopBar';
 import {DEBUG} from '../debug/debugStatus';
 import TestRealmButtons from '../debug/TestRealmButtons';
 
-import {defaultOpenParams, allSchemas} from '../realm/DatabaseConfig';
+import {defaultOpenParams} from '../realm/DatabaseConfig';
 
 const Realm = require('realm');
 
@@ -163,6 +163,10 @@ export function HomeScreen() {
       setRealm(r);
       populateIncidentChoices(r);
       populateReflectChoices(r);
+      r.addListener('change', 
+        (realm) => { console.log("In HomeScreen's realm listener callback"); 
+                     populateIncidentChoices(realm); 
+                     populateReflectChoices(realm); });
     });
 
     return () => {

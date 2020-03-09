@@ -7,13 +7,12 @@ export default function List({listItems}) {
   console.log('in list');
   //console.log(listItems.length);
   return (
-    /*list content*/
     <View style={styles.container}>
         <View style={styles.listBody}>
           <FlatList
             data = {listItems}
             renderItem={({ item, index })=>(
-              <SymptomItem item={item}/>
+              <SymptomItem item={item} pressHandler={() => {console.log("SymptomItem clicked.")}}/> // This component requires a prop of pressHandler
             )}
             keyExtractor={(item, index) => index.toString()}
           />
@@ -25,31 +24,8 @@ export default function List({listItems}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    /*backgroundColor: "#9bcdd5"*/
   },
   listBody:{
     marginTop: 2
   }
 });
-
-
-
-/*extra Mario stuff (currently removed -- maybe useful as an example/showing how things work)*/
-/*
-// Removes Item corresponding  to Key
-
-
-
-
-const submitSymp = (text) => {
-  setSymptom((prevsymptoms) => {
-    return [
-      {text: text, key: Math.random().toString()},
-      ...prevsymptoms
-    ]
-  });
-}
-
-
-
-*/
