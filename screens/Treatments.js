@@ -17,7 +17,16 @@ export default function Treatments() {
         Realm.open(defaultOpenParams).then(realm => {
             console.log('opened realm in Treatments');
             setRealm(realm);
-            setTreatments(realm.objects('Treatment'));
+            setTreatments(realm.objects('Treatment').snapshot());
+            realm.addListener('change', 
+              (r) => { 
+                if(treatments != r.objects('Treatment').snapshot()){
+                  console.log('Update Treatments');
+                  console.log(r.objects('Treatment').snapshot());
+                  setTreatments(r.objects('Treatment').snapshot());
+                }
+              }
+            );    
         });
 
         return () => {

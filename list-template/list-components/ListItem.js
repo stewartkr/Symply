@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 
-export default function ListItem( { item, pressHandler}){
+export default function ListItem({ item, pressHandler }){
     return(
       <View style={styles.listItem}>
         <TouchableOpacity onPress={() => pressHandler(item.key)}>

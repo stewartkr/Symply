@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 
-export default function DropdownSelector( {description, pressHandler, listItems, iconName}){
+export default function DropdownSelector( {description, pressHandler, listItems, iconName}){ // TODO: We don't use listItems here, should we? (sb)
 
   return(
     <TouchableOpacity activeOpacity={0.8} style={{flex: 1}} onPress={() => pressHandler()}>

@@ -1,12 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextInput, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 import List from './List';
 import DropdownSelector from './DropdownSelector';
-import DropdownList from './DropdownList';
 
-
-export default function ListTemplate({listItems}) {
+export default function ListTemplate({listItems, textExtractor}) {
 
   const [displaySorts, sortDisplayFunct] = useState(false);
 
@@ -20,6 +18,12 @@ export default function ListTemplate({listItems}) {
 
   const [sortArrowPosition, setSortArrowPosition] = useState('ios-arrow-down');
 
+  // necessary b/c otherwise we don't update listItems if the prop changes
+  useEffect(() => {
+    if(listItems != items) {
+      pressFunct(listItems);
+    }
+  })
 
   const sortAZ = '1';
   const sortZA = '2';
@@ -75,15 +79,14 @@ export default function ListTemplate({listItems}) {
 
   const listPressHandler = (key) => {
     console.log("press handler stub");
-    var item = null;
-    i = 0;
+    let item = null;
+    let i = 0;
     while (item == null  &&  i < listItems.length) {
       if (listItems[i].key == key) {
         item = listItems[i];
       }
       i ++;
     }
-    console.log("list item is " + item.text);
   }
 
 
@@ -102,7 +105,7 @@ export default function ListTemplate({listItems}) {
       console.log("uh oh item is null");
     }
     else {
-      setDropdownItemSelected(item.text);
+      // setDropdownItemSelected(item.text);
     }
 
   }
@@ -123,7 +126,7 @@ export default function ListTemplate({listItems}) {
       console.log("uh oh item is null");
     }
     else {
-      setDropdownItemSelected(item.text);
+      // setDropdownItemSelected(item.text);
       if(key == sortAZ) {
         sortList();
       }
@@ -163,14 +166,14 @@ export default function ListTemplate({listItems}) {
 
 
 
-  /*remove later*/ // TODO: Why remove later? Please add context in-line. (sb)
+  /*move to DropdownSelector?*/
   const DropdownDisplay = ({display, dropdownItems, onClick}) => {
     if (!display) {
       return null;
     }
     return (
       <View style={{position: 'absolute', top: 85, width: '100%'}}>
-        <DropdownList listItems={dropdownItems} pressHandler={onClick} />
+        <List listItems={dropdownItems} textExtractor={textExtractor} pressHandler={onClick} />
       </View>
     );
   }
@@ -205,14 +208,14 @@ export default function ListTemplate({listItems}) {
   return (
     <View style={{ flex: 1}}>
       <ConsoleLog>{items}</ConsoleLog>
-      <TextInput
+      <TextInput // NOTE: Nonfunctional.
         placeholder='Search...'
       />
       <View style={styles.flexRow}>
         <DropdownSelector iconName={tagArrowPosition} description='Tags' pressHandler = {showHideFilters} listItems = {items} />
         <DropdownSelector iconName={sortArrowPosition} description='Sort by' pressHandler = {showHideSort} listItems = {items}/>
       </View>
-      <List listItems={items} pressHandler={listPressHandler}/>
+      <List listItems={items} textExtractor={textExtractor} pressHandler={listPressHandler}/>
       <DropdownDisplay display={displaySorts} dropdownItems={sortOptions} onClick={sortItemPress}/>
       <DropdownDisplay display={displayFilters} dropdownItems={filterOptions} onClick={filterItemPress} />
     </View>

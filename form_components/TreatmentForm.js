@@ -39,6 +39,7 @@ function TreatmentForm({ addTreatments }){
                             placeholder='Dose'
                             onChangeText={formProps.handleChange('dose')}
                             value={formProps.values.frequency}
+                            keyboardType='number-pad'
                         /> 
                         <TextInput
                             style={styles.textInputBox}

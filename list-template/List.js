@@ -1,10 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
-import ListItem from './list-components/ListItem'
+import ListItem from './list-components/ListItem';
 
-
-export default function List({listItems, pressHandler}) {
-  console.log('in list');
+export default function List({listItems, textExtractor, pressHandler}) {
 
   return (
     <View style={styles.container}>
