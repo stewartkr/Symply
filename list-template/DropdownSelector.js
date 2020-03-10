@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { GlobalColors } from '../assets/GlobalStyle';
 
 
 export default function DropdownSelector( {description, pressHandler, listItems, iconName}){ // TODO: We don't use listItems here, should we? (sb)
@@ -26,17 +27,17 @@ export default function DropdownSelector( {description, pressHandler, listItems,
 const styles = StyleSheet.create({
     dropDown: {
       height: 40,
-      backgroundColor: '#cfd8dc'
+      backgroundColor: GlobalColors.dropdownBGColor
     },
     menuText: {
-      color: '#888888',
+      color: GlobalColors.fontColor,
       marginLeft: 10
     },
     rightArrow: {
       marginRight: 10,
       alignSelf: 'flex-end',
       textAlign: 'center',
-      color: '#888888'
+      color: GlobalColors.fontColor
     },
     verticalCenter: {
       flex: 1,

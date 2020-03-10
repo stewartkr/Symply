@@ -1,32 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, FlatList, Button, Text, Modal, TouchableOpacity } from 'react-native';
-import { grey } from 'color-name';
-import { GlobalColors } from '../assets/GlobalStyle';
+import { View, Text, Modal, TouchableOpacity } from 'react-native';
+import { GlobalColors, GlobalStyle } from '../assets/GlobalStyle';
 import ListTemplate from '../list-template/ListTemplate';
 import ProviderForm from "../form_components/ProviderForm";
 
-import { allSchemas, defaultOpenParams } from '../realm/DatabaseConfig';
+import { defaultOpenParams } from '../realm/DatabaseConfig';
 
 const Realm = require('realm');
 
 export default function Providers() {
     
     const [modalOpen, setModalOpen] = useState(false);
-    const [providers, setProvider] = useState(null);
+    const [providers, setProviders] = useState(null);
     const [realm, setRealm] = useState(null);
+
+    const listener = (r) => {
+      if(treatments != r.objects('Provider').snapshot()){
+        console.log('Update Providers');
+        console.log(r.objects('Provider').snapshot());
+        setTreatments(r.objects('Provider').snapshot());
+      }
+    }
+
+    const listenerName = 'change';
 
     useEffect(() => {
         Realm.open(defaultOpenParams).then(realm => {
-            console.log('opened realm in Providers');
             setRealm(realm);
-            setProvider(realm.objects('Provider'));
+            setProviders(realm.objects('Provider').snapshot())
+            realm.addListener(listenerName, listener);
         });
 
         return () => {
-            if (realm !== null && !realm.isClosed) {
-                console.log('closed realm');
-                realm.close();
-            }
+          if (realm !== null && !realm.isClosed) {
+            realm.removeListener(listenerName, listener);
+            console.log('closed realm');
+            realm.close();
+          }
         };
     }, []);
 
@@ -42,6 +52,16 @@ export default function Providers() {
         setModalOpen(false);
     }
 
+    // return an array, index 0 is Name, index 1 is secondary info
+    const textExtractor = (provider) => {
+      let primary = provider.firstName + " " + provider.lastName;
+      let secondary = '';
+      if (provider.occupation != null){
+        secondary = secondary.concat(provider.occupation);
+      }
+      return [primary, secondary];
+    }
+
     return (
         <View style={{ flex: 1, backgroundColor: GlobalColors.backgroundColor }}>
             <Modal
@@ -51,45 +71,20 @@ export default function Providers() {
                 <View style={{ flex: 1 }}>
                     <TouchableOpacity
                         onPress={() => { setModalOpen(false) }}
-                        style={styles.backButton}
+                        style={GlobalStyle.backButton}
                     >
                     <Text style={{ textAlign: 'center', fontSize: 20 }}>Back</Text>
                     </TouchableOpacity>
                     <ProviderForm addProvider={addProvider} />
                 </View>
             </Modal>
-            <ListTemplate listItems={providers}/>
+            <ListTemplate listItems={providers} textExtractor={textExtractor}/>
             <TouchableOpacity
-                onPress={() => { setModalOpen(true) }}
-                style={styles.addButton}
+              onPress={() => { setModalOpen(true) }}
+              style={GlobalStyle.addButton}
             >
-                <Text> Add Provider</Text>
+              <Text style={GlobalStyle.addButtonText}> Add Provider</Text>
             </TouchableOpacity>
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#9bcdd5",
-    },
-    addButton: {
-        backgroundColor: 'white',
-        padding: 10,
-        width: 110,
-        marginBottom: 10,
-        borderRadius: 10,
-        left:10
-    },
-    backButton: {
-        marginTop: 50,
-        alignSelf: 'flex-end',
-        width: 55,
-        height: 35,
-        paddingTop: 5,
-        fontSize: 100,
-        borderRadius: 5,
-        right: 1
-    }
-});

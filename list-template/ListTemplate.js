@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextInput, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { TextInput, StyleSheet, View } from 'react-native';
 
 import List from './List';
 import DropdownSelector from './DropdownSelector';
@@ -12,7 +12,7 @@ export default function ListTemplate({listItems, textExtractor}) {
 
   const [items, pressFunct] = useState(listItems);
 
-  const [dropdownItemSelected, setDropdownItemSelected] = useState(""); // TODO: We set this value but never use it. Please either use, remove, or clarify how it will be used in the next PRs. (sb)
+  // const [dropdownItemSelected, setDropdownItemSelected] = useState(""); // TODO: We set this value but never use it. Please either use, remove, or clarify how it will be used in the next PRs. (sb)
 
   const [tagArrowPosition, setTagArrowPosition] = useState('ios-arrow-down');
 

@@ -1,42 +1,49 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Modal } from 'react-native';
+import { Text, View, TouchableOpacity, Modal } from 'react-native';
 import ListTemplate from '../list-template/ListTemplate';
 import TopBar from '../navigation/TopBar';
-import {GlobalColors} from '../assets/GlobalStyle';
+import { GlobalColors, GlobalStyle } from '../assets/GlobalStyle';
 import ApppointmentForm from '../form_components/AppointmentForm';
 
-import { defaultOpenParams, allSchemas } from '../realm/DatabaseConfig';
+import { defaultOpenParams } from '../realm/DatabaseConfig';
 
 const Realm = require('realm');
 
 export function AppointmentScreen() {
 
-  const [appointments, setAppointment] = useState(null);
+  const [appointments, setAppointments] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [realm, setRealm] = useState(null)
   
+  const listener = (r) => {
+    if(treatments != r.objects('Appointment').snapshot()){
+      console.log('Update Appointments');
+      console.log(r.objects('Appointment').snapshot());
+      setTreatments(r.objects('Appointment').snapshot());
+    }
+  }
+
+  const listenerName = 'change';
 
   useEffect(() => {
     Realm.open(defaultOpenParams).then(realm => {
-      console.log('opened realm in Treatments');
       setRealm(realm);
-      setAppointment(realm.objects('Appointment'));
+      setAppointments(realm.objects('Appointment'));
+      realm.addListener(listenerName, listener);    
     });
 
     return () => {
       if (realm !== null && !realm.isClosed) {
+        realm.removeListener(listenerName, listener);
         console.log('closed realm');
         realm.close();
       }
     };
   }, []);
 
-  //temporary while the db is yet to be pulling from
   const addAppoint = (appointments) => {
-    console.log(treatments.name);
-    const dosageVal = parseInt(treatments.dose, 10);
     realm.write(() => {
-      newTreatment = realm.create('Treatment', {
+      newTreatment = realm.create('Appointment', {
         provider: appointments.name,
         time: appointments.time
       });
@@ -44,10 +51,13 @@ export function AppointmentScreen() {
     setModalOpen(false);
   }
 
-  const goBack = () =>{
-    setModalOpen(false);
+  // return an array, index 0 is Name, index 1 is secondary info
+  const textExtractor = (appointment) => {
+    let primary = appointment.time.toString();
+    let secondary = '';
+    secondary = secondary.concat(appointment.provider.firstName + " " + appointment.provider.lastName);
+    return [primary, secondary];
   }
-
 
   return (
     <View style={{flex: 1, backgroundColor: GlobalColors.backgroundColor}}>
@@ -59,41 +69,20 @@ export function AppointmentScreen() {
         <View style={{flex: 1}}>
           <TouchableOpacity
             onPress={() => { setModalOpen(false) }}
-            style={styles.backButton}
+            style={GlobalStyle.backButton}
           >
             <Text style={{ textAlign: 'center', fontSize: 20}}>Back</Text>
           </TouchableOpacity>
           <ApppointmentForm addAppoint={addAppoint}/>
         </View>
       </Modal>
-      <ListTemplate listItems={appointments}/>
+      <ListTemplate listItems={appointments} textExtractor={textExtractor}/>
       <TouchableOpacity 
         onPress={()=>{setModalOpen(true)}}
-        style={styles.addButton}
+        style={GlobalStyle.addButton}
       >
-        <Text>Add Appointment</Text>
+        <Text style={GlobalStyle.addButtonText}>Add Appointment</Text>
       </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  addButton: {
-    backgroundColor: 'white',
-    padding: 10,
-    width: 135,
-    marginBottom:10,
-    left:10,
-    borderRadius:10
-  },
-  backButton:{
-    marginTop: 50, 
-    alignSelf: 'flex-end',
-    width:55,
-    height:35,
-    paddingTop:5,
-    fontSize:100,
-    borderRadius:5,
-    right:1
-  }
-});
