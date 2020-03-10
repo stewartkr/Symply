@@ -1,22 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
-import SymptomItem from './list-components/SymptomItem'
+import ListItem from './list-components/ListItem'
 
 
-export default function List({listItems}) {
+export default function List({listItems, pressHandler}) {
   console.log('in list');
-  //console.log(listItems.length);
+
   return (
     <View style={styles.container}>
-        <View style={styles.listBody}>
-          <FlatList
-            data = {listItems}
-            renderItem={({ item, index })=>(
-              <SymptomItem item={item} pressHandler={() => {console.log("SymptomItem clicked.")}}/> // This component requires a prop of pressHandler
-            )}
-            keyExtractor={(item, index) => index.toString()}
-          />
-        </View>
+      <FlatList
+        data = {listItems}
+        renderItem={({ item, index })=>(
+          <ListItem item={item} pressHandler={pressHandler}/>
+        )}
+        keyExtractor={(item, index) => index.toString()}
+      />
     </View>
   );
 }
@@ -24,8 +22,6 @@ export default function List({listItems}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  listBody:{
     marginTop: 2
   }
 });

@@ -17,7 +17,7 @@ export default function Providers() {
 
     useEffect(() => {
         Realm.open(defaultOpenParams).then(realm => {
-            console.log('opened realm in Treatments');
+            console.log('opened realm in Providers');
             setRealm(realm);
             setProvider(realm.objects('Provider'));
         });
@@ -30,14 +30,13 @@ export default function Providers() {
         };
     }, []);
 
-    //find better way of generating new key
     const addProvider = (providers) => {
         realm.write(() => {
-            newTreatment = realm.create('Provider', {
-                firstName: appointments.firstN,
-                lastName: appointments.lastN,
-                address: appointments.address,
-                occupation: treatments.occupation
+            const new_provider = realm.create('Provider', {
+                firstName: providers.firstN,
+                lastName: providers.lastN,
+                address: providers.address,
+                occupation: providers.occupation
             });
         });
         setModalOpen(false);

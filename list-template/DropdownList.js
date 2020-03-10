@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
-import DropdownItem from './list-components/DropdownItem';
+import ListItem from './list-components/ListItem';
 
 export default function DropdownList({listItems, pressHandler}) {
-
 
   return (
     <View style={styles.container}>
       <FlatList
         data = {listItems}
         renderItem={({ item })=>(
-          <DropdownItem item={item} pressHandler = {pressHandler}/>
+          <ListItem item={item} pressHandler = {pressHandler}/>
         )}
       />
     </View>

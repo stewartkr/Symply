@@ -4,7 +4,7 @@ import ListTemplate from '../list-template/ListTemplate';
 import TopBar from '../navigation/TopBar'
 import {GlobalColors} from '../assets/GlobalStyle';
 
-
+// TODO: Why... Update this to pull symptoms?
 export function LogScreen() {
 
   const logs = [

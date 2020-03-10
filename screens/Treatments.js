@@ -28,16 +28,15 @@ export default function Treatments() {
         };
     }, []);
     
-    //replace this with writing to the database functionality
     const addTreatments = (treatments) => {
         console.log(treatments.name);
         const dosageVal = parseInt(treatments.dose,10);
         realm.write(() => {
-            newTreatment = realm.create('Treatment', {
-            name: treatments.name, 
-            medication: false, 
-            dose: dosageVal, 
-            doseUnit: treatments.doseUnit, 
+            const newTreatment = realm.create('Treatment', {
+              name: treatments.name, 
+              medication: treatments.medication,
+              dose: dosageVal, 
+              doseUnit: treatments.doseUnit, 
             });
         });
         setModalOpen(false);
