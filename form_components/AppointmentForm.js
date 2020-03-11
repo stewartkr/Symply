@@ -16,6 +16,7 @@ function AppointmentForm({ addAppoint }){
             initialValues = {{provider:'', time:'', notes:''}}
             onSubmit = {(values, actions) => {
                 console.log(values.provider);
+                values.time = new Date();
                 actions.resetForm();
                 addAppoint(values);
             }}
@@ -32,7 +33,7 @@ function AppointmentForm({ addAppoint }){
 
                 <TextInput
                   style={GlobalStyle.textInputBox}
-                  placeholder='Day'
+                  placeholder='Date'
                   //two way data binding
                   onChangeText={formProps.handleChange('time')}
                   value={formProps.values.time}

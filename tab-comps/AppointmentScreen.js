@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity, Modal } from 'react-native';
+import { Text, View, TouchableOpacity, Modal, SafeAreaView } from 'react-native';
 import ListTemplate from '../list-template/ListTemplate';
 import TopBar from '../navigation/TopBar';
 import { GlobalColors, GlobalStyle } from '../assets/GlobalStyle';
@@ -58,34 +58,36 @@ export function AppointmentScreen() {
   const textExtractor = (appointment) => {
     let primary = appointment.time.toString();
     let secondary = '';
-    secondary = secondary.concat(appointment.provider.firstName + " " + appointment.provider.lastName);
+    secondary = appointment.provider;
     return [primary, secondary];
   }
 
   return (
-    <View style={{flex: 1, backgroundColor: GlobalColors.backgroundColor}}>
-      <TopBar pageName='Appointments' />
-      <Modal 
-        visible={modalOpen} 
-        animationType='slide' 
-      >
-        <View style={{flex: 1}}>
-          <TouchableOpacity
-            onPress={() => { setModalOpen(false) }}
-            style={GlobalStyle.backButton}
-          >
-            <Text style={{ textAlign: 'center', fontSize: 20}}>Back</Text>
-          </TouchableOpacity>
-          <ApppointmentForm addAppoint={addAppoint}/>
-        </View>
-      </Modal>
-      <ListTemplate listItems={appointments} textExtractor={textExtractor}/>
-      <TouchableOpacity 
-        onPress={()=>{setModalOpen(true)}}
-        style={GlobalStyle.addButton}
-      >
-        <Text style={GlobalStyle.addButtonText}>Add Appointment</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={{flex:1}}>
+      <View style={{flex: 1, backgroundColor: GlobalColors.backgroundColor}}>
+        <TopBar pageName='Appointments' />
+        <Modal 
+          visible={modalOpen} 
+          animationType='slide' 
+        >
+          <View style={GlobalStyle.container}>
+            <TouchableOpacity
+              onPress={() => { setModalOpen(false) }}
+              style={GlobalStyle.backButton}
+            >
+              <Text style={{ textAlign: 'center', fontSize: 20}}>Back</Text>
+            </TouchableOpacity>
+            <ApppointmentForm addAppoint={addAppoint}/>
+          </View>
+        </Modal>
+        <ListTemplate listItems={appointments} textExtractor={textExtractor}/>
+        <TouchableOpacity 
+          onPress={()=>{setModalOpen(true)}}
+          style={GlobalStyle.addButton}
+        >
+          <Text style={GlobalStyle.addButtonText}>Add Appointment</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 }

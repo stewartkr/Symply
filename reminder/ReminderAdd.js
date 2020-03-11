@@ -22,12 +22,11 @@ const styles = StyleSheet.create({
 const inputBox = (placeholder, onChangeText) => {
   return (
     <View style={styles.inputContainer}>
-      <View style={styles.inputBox}>
         <TextInput
+          style={GlobalStyle.textInputBox}
           placeholder={placeholder}
           onChangeText={text => onChangeText(text)}
         />
-      </View>
     </View>
   );
 };
@@ -39,8 +38,8 @@ export default function ReminderAdd({setVisible, inputHandler}) {
   });
 
   return (
-    <View style={GlobalStyle.container}>
-      <Text style={GlobalStyle.titleText}>Add a Reminder</Text>
+    <View style={GlobalStyle.formContainer}>
+      <Text style={GlobalStyle.formName}>Add a Reminder</Text>
       {inputBox('Enter reminder text', text => {
         setInput(prevInput => ({
           text: text,

@@ -91,7 +91,9 @@ const GlobalStyle = StyleSheet.create({
     backgroundColor: soft_white,
     padding: 10,
     width: 200,
-    left: 100
+    left: 100,
+    marginBottom: 10,
+    borderRadius: 10
   },
 
   backButton:{

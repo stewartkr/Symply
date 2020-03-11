@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import { View, SafeAreaView } from 'react-native';
 import ListTemplate from '../list-template/ListTemplate';
 import TopBar from '../navigation/TopBar';
-import { GlobalColors } from '../assets/GlobalStyle';
+import { GlobalColors, GlobalStyle } from '../assets/GlobalStyle';
 
 import { defaultOpenParams } from '../realm/DatabaseConfig';
 
@@ -52,9 +52,11 @@ export function LogScreen() {
   }
 
   return (
-    <View style={{flex: 1, backgroundColor:GlobalColors.backgroundColor}}>
-      <TopBar pageName='Log' />
-      <ListTemplate listItems={symptoms} textExtractor={textExtractor}/>
-    </View>
+    <SafeAreaView style={{flex:1}}>
+      <View style={{flex:1, backgroundColor:GlobalColors.backgroundColor}}>
+        <TopBar pageName='Log' />
+        <ListTemplate listItems={symptoms} textExtractor={textExtractor}/>
+      </View>
+    </SafeAreaView>
   );
 }

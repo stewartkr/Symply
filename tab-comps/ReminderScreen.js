@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, TouchableOpacity, Modal, Text} from 'react-native';
+import {View, TouchableOpacity, Modal, Text, SafeAreaView} from 'react-native';
 import ReminderCount from '../reminder/ReminderCount';
 import ReminderList from '../reminder/ReminderList';
 import ReminderAdd from '../reminder/ReminderAdd';
@@ -87,24 +87,29 @@ export default function ReminderScreen() {
   };
 
   return (
-    <View style={GlobalStyle.container}>
-      <TopBar pageName="Reminders" />
-      <Modal visible={modalVisible} animationType="slide">
-        <ReminderAdd setVisible={setVisible} inputHandler={addReminder} />
-      </Modal>
-      <ReminderCount reminderList={currReminders} />
-      <ReminderList
-        reminderList={currReminders}
-        deleteReminder={deleteReminder}
-      />
-      <TouchableOpacity
-        style={GlobalStyle.addButton}
-        onPress={() => {
-          setVisible(true);
-        }}>
-        <Text style={GlobalStyle.addButtonText}>Add Reminder</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={{flex:1}}>
+      <View style={GlobalStyle.container}>
+        <TopBar pageName="Reminders" />
+        <Modal
+          style={GlobalStyle.container} 
+          visible={modalVisible} 
+          animationType="slide">
+          <ReminderAdd setVisible={setVisible} inputHandler={addReminder} />
+        </Modal>
+        <ReminderCount reminderList={currReminders} />
+        <ReminderList
+          reminderList={currReminders}
+          deleteReminder={deleteReminder}
+        />
+        <TouchableOpacity
+          style={GlobalStyle.addButton}
+          onPress={() => {
+            setVisible(true);
+          }}>
+          <Text style={GlobalStyle.addButtonText}>Add Reminder</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 }
 

@@ -71,7 +71,7 @@ export default function Providers() {
                 visible={modalOpen}
                 animationType='slide'
             >
-                <View style={{ flex: 1 }}>
+                <View style={GlobalStyle.container}>
                     <TouchableOpacity
                         onPress={() => { setModalOpen(false) }}
                         style={GlobalStyle.backButton}
