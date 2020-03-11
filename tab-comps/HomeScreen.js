@@ -9,7 +9,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {GlobalColors, GlobalStyle} from '../assets/GlobalStyle';
+
 import TopBar from '../navigation/TopBar';
+
 import {DEBUG} from '../debug/debugStatus';
 import TestRealmButtons from '../debug/TestRealmButtons';
 
@@ -126,15 +128,14 @@ export function HomeScreen() {
     },
   ];
 
-  // state setup
-  const [sliderState, setSlider] = useState(0);
-  const [sliderValue, setValue] = useState(5);
-  const [inputFields, setInput] = useState({});
-  const [incidentChoices, setIncidentChoices] = useState([]);
-  const [reflectChoices, setReflectChoices] = useState([]);
-  const [realm, setRealm] = useState(null);
-  const [debugVisible, setVisible] = useState(false);
-  const [submitDisabled, disableSubmit] = useState(true);
+  const [sliderState, setSlider] = useState(0); // incidents/reflections
+  const [sliderValue, setValue] = useState(5); // slider severity
+  const [inputFields, setInput] = useState({}); // input for submit
+  const [incidentChoices, setIncidentChoices] = useState([]); // choices for input
+  const [reflectChoices, setReflectChoices] = useState([]); // choices for input
+  const [realm, setRealm] = useState(null); // db link
+  const [debugVisible, setVisible] = useState(false); // debug modal open/close
+  const [submitDisabled, disableSubmit] = useState(true); // submit button enable/disable
 
   // set up realm on component mount, close it on component unmount
   useEffect(() => {

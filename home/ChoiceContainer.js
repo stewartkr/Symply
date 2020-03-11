@@ -9,7 +9,7 @@ export default function ChoiceContainer({
   refs,
   changeInput,
   submitInput,
-    submitDisabled,
+  submitDisabled,
 }) {
   return (
     <View style={[GlobalStyle.container]}>
@@ -34,7 +34,11 @@ export default function ChoiceContainer({
         )}
         keyExtractor={item => item}
       />
-      <Button title={'Submit'} onPress={() => submitInput()} disabled={submitDisabled}/>
+      <Button
+        title={'Submit'}
+        onPress={() => submitInput()}
+        disabled={submitDisabled}
+      />
     </View>
   );
 }
