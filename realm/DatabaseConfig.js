@@ -8,6 +8,21 @@ const dataEnum = {
     1: 'done',
     2: 'skipped',
   },
+  diet: {
+    0: 'Great',
+    1: 'Good',
+    2: 'Okay',
+    3: 'Poor',
+    4: 'Bad',
+  },
+  sleep: {
+    0: '>12 hours',
+    1: '10-12 hours',
+    2: '8-10 hours',
+    3: '6-8 hours',
+    4: '4-6 hours',
+    5: '<4 hours',
+  },
 };
 
 const schemaVersion = 2;

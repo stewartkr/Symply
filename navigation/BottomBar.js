@@ -4,15 +4,15 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { HomeScreen } from "../tab-comps/HomeScreen";
 import { AppointmentScreen } from "../tab-comps/AppointmentScreen";
-import ProfileNavigator from "../tab-comps/ProfileScreen.js";
+import ProfileNavigator from "../tab-comps/ProfileNavigator";
 import { LogScreen } from "../tab-comps/LogScreen";
+import ReminderScreen from "../tab-comps/ReminderScreen";
 
 
 
 export default function BottomBar() {
 
-  const Tab = createBottomTabNavigator(
-  );
+  const Tab = createBottomTabNavigator();
 
   return (
       <Tab.Navigator
@@ -26,10 +26,13 @@ export default function BottomBar() {
                 iconName = 'ios-calendar';
               }
               else if (route.name === 'Profile') {
-                iconName='md-person';
+                iconName = 'md-person';
               }
-              else if(route.name === 'Appointments') {
-                iconName='md-clipboard'
+              else if (route.name === 'Appointments') {
+                iconName = 'md-clipboard';
+              }
+              else if (route.name === 'Reminders') {
+                iconName = 'md-clock';
               }
 
               // You can return any component that you like here!
@@ -45,6 +48,7 @@ export default function BottomBar() {
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Log" component={LogScreen} />
         <Tab.Screen name="Appointments" component={AppointmentScreen} />
+        <Tab.Screen name="Reminders" component={ReminderScreen} />
         <Tab.Screen name="Profile" component={ProfileNavigator} />
       </Tab.Navigator>
   );

@@ -1,55 +1,20 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
-import SymptomItem from './list-components/SymptomItem'
+import React from 'react';
+import { View, FlatList } from 'react-native';
+import ListItem from './list-components/ListItem';
+import { GlobalStyle } from '../assets/GlobalStyle';
 
+export default function List({listItems, textExtractor, pressHandler}) {
 
-export default function List({listItems}) {
-  console.log('in list');
-  //console.log(listItems.length);
+  // TODO: Update so that it doesn't call textExtractor twice. Note this might require state and event hook? (sb)
   return (
-    /*list content*/
-    <View style={styles.container}>
-        <View style={styles.listBody}>
-          <FlatList
-            data = {listItems}
-            renderItem={({ item, index })=>(
-              <SymptomItem item={item}/>
-            )}
-            keyExtractor={(item, index) => index.toString()}
-          />
-        </View>
+    <View style={GlobalStyle.listContainer}>
+      <FlatList
+        data = {listItems}
+        renderItem={({ item, index })=>(
+          <ListItem item={item} itemName={textExtractor(item)[0]} itemSecondary={textExtractor(item)[1]} pressHandler={pressHandler}/>
+        )}
+        keyExtractor={(item, index) => index.toString()}
+      />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    /*backgroundColor: "#9bcdd5"*/
-  },
-  listBody:{
-    marginTop: 2
-  }
-});
-
-
-
-/*extra Mario stuff (currently removed -- maybe useful as an example/showing how things work)*/
-/*
-// Removes Item corresponding  to Key
-
-
-
-
-const submitSymp = (text) => {
-  setSymptom((prevsymptoms) => {
-    return [
-      {text: text, key: Math.random().toString()},
-      ...prevsymptoms
-    ]
-  });
-}
-
-
-
-*/

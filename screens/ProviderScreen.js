@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-
+import { GlobalColors } from '../assets/GlobalStyle';
 
 export default function Provider(){
     return(
@@ -20,15 +19,13 @@ export default function Provider(){
     )
 }
 
-
-
 const styles = StyleSheet.create({
     roundedBox: {
       marginTop: 20,
       height: 200,
       marginLeft: 10,
       marginRight: 10,
-      backgroundColor: '#888888',
+      backgroundColor: GlobalColors.grey,
       borderRadius: 20
     },
     horizontalCenter: {
@@ -36,11 +33,11 @@ const styles = StyleSheet.create({
       alignItems: 'center'
     },
     largeWhiteText: {
-      color: '#fdfdfd',
+      color: GlobalColors.softWhite,
       fontSize: 30
     },
     smallerWhiteText: {
-      color: '#fdfdfd',
+      color: GlobalColors.softWhite,
       fontSize: 23
     },
     largerTopMargin: {
@@ -53,6 +50,5 @@ const styles = StyleSheet.create({
       marginLeft: 10
     }
 })
-
 
 const officeInfoStyle = [styles.smallerWhiteText, styles.leftMargin]
