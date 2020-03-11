@@ -5,8 +5,11 @@ import TopBar from '../navigation/TopBar'
 import {GlobalColors} from '../assets/GlobalStyle';
 
 
-export function LogScreen() {
 
+
+
+export function LogScreen() {
+  
   const logs = [
     {text:'nausea', key:'1'},
     {text: 'upset stomach', key: '2'},
