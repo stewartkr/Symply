@@ -1,0 +1,16 @@
+436 -
+Make requested changes/ reorganize code
+Create DB Migration (don't)
+Test list functionality (done)
+
+ListTemplate uses DropdownSelector, DropdownList, List
+
+List uses SymptomItem
+
+DropdownList uses DropdownItem because it asks for item.text instead of item.name - refactor to accept text, itemkey as props?
+
+Update LogScreen to pull symptoms from the DB.
+
+TODO:
+Update LogScreen to pull symptoms from the DB.
+Create textExtractor functions.

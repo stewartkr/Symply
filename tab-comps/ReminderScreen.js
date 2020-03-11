@@ -98,10 +98,11 @@ export default function ReminderScreen() {
         deleteReminder={deleteReminder}
       />
       <TouchableOpacity
+        style={GlobalStyle.addButton}
         onPress={() => {
           setVisible(true);
         }}>
-        <Text>Add Reminder</Text>
+        <Text style={GlobalStyle.addButtonText}>Add Reminder</Text>
       </TouchableOpacity>
     </View>
   );

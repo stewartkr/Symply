@@ -4,6 +4,7 @@ import { StyleSheet, View,
           Text, TextInput }           from 'react-native';
 import Overlay                        from 'react-native-modal-overlay';
 import AsyncStorage                   from '@react-native-community/async-storage';
+import { GlobalColors } from '../assets/GlobalStyle';
 
 export default function Providers() {
   const [prevPin, setPrevPin] = useState(null);
@@ -98,10 +99,10 @@ export default function Providers() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#9bcdd5",
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
+  container: {
+    flex: 1,
+    backgroundColor: GlobalColors.backgroundColor,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 });

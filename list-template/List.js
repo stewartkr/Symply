@@ -1,30 +1,20 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
-import SymptomItem from './list-components/SymptomItem'
+import React from 'react';
+import { View, FlatList } from 'react-native';
+import ListItem from './list-components/ListItem';
+import { GlobalStyle } from '../assets/GlobalStyle';
 
+export default function List({listItems, textExtractor, pressHandler}) {
 
-export default function List({listItems}) {
-  console.log('in list');
-  
+  // TODO: Update so that it doesn't call textExtractor twice. Note this might require state and event hook? (sb)
   return (
-    <View style={styles.container}>
-        <View style={styles.listBody}>
-          <FlatList
-            data = {listItems}
-            renderItem={({ item })=>(
-              <SymptomItem item={item}/>
-            )}
-          />
-        </View>
+    <View style={GlobalStyle.listContainer}>
+      <FlatList
+        data = {listItems}
+        renderItem={({ item, index })=>(
+          <ListItem item={item} itemName={textExtractor(item)[0]} itemSecondary={textExtractor(item)[1]} pressHandler={pressHandler}/>
+        )}
+        keyExtractor={(item, index) => index.toString()}
+      />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  listBody:{
-    marginTop: 2
-  }
-});

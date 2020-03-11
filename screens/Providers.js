@@ -1,27 +1,68 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, FlatList, Button, Text, Modal, TouchableOpacity } from 'react-native';
-import { grey } from 'color-name';
-import { GlobalColors } from '../assets/GlobalStyle';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Modal, TouchableOpacity } from 'react-native';
+import { GlobalColors, GlobalStyle } from '../assets/GlobalStyle';
 import ListTemplate from '../list-template/ListTemplate';
 import ProviderForm from "../form_components/ProviderForm";
+
+import { defaultOpenParams } from '../realm/DatabaseConfig';
+
+const Realm = require('realm');
 
 export default function Providers() {
     
     const [modalOpen, setModalOpen] = useState(false);
+    const [providers, setProviders] = useState(null);
+    const [realm, setRealm] = useState(null);
 
-    const [providers, setProvider] = useState([
-        { text: "Dr. Oz", field: 'phony', address: 'fakersvile', primary_contact: '555-555-5555', key: '1' },
-        { text: 'Dr. Phil', field: 'phony', address: 'fakersvile', primary_contact: '555-555-5555', key: '2' },
-        { text: 'Dr. Drew', field: 'phony', address: 'fakersvile', primary_contact: '555-555-5555', key: '3' }
-    ]);
+    const listener = (r) => {
+      let snap = r.objects('Provider').snapshot();
+      let array = Object.keys(snap).map(key => snap[key]);
+      if(providers != snap){
+        console.log('Update Providers');
+        setProviders(array);
+      }
+    }
 
-    //find better way of generating new key
+    const listenerName = 'change';
+
+    useEffect(() => {
+        Realm.open(defaultOpenParams).then(realm => {
+            setRealm(realm);
+            let snap = realm.objects('Provider').snapshot();
+            let array = Object.keys(snap).map(key => snap[key]);
+            setProviders(array);
+            realm.addListener(listenerName, listener);
+        });
+
+        return () => {
+          if (realm !== null && !realm.isClosed) {
+            realm.removeListener(listenerName, listener);
+            console.log('closed realm');
+            realm.close();
+          }
+        };
+    }, []);
+
     const addProvider = (providers) => {
-        providers.key = Math.random().toString();
-        setProvider((nextProvider) => {
-            return [providers, ...nextProvider];
-        })
+        realm.write(() => {
+            const new_provider = realm.create('Provider', {
+                firstName: providers.firstN,
+                lastName: providers.lastN,
+                address: providers.address,
+                occupation: providers.occupation
+            });
+        });
         setModalOpen(false);
+    }
+
+    // return an array, index 0 is Name, index 1 is secondary info
+    const textExtractor = (provider) => {
+      let primary = provider.firstName + " " + provider.lastName;
+      let secondary = '';
+      if (provider.occupation != null){
+        secondary = secondary.concat(provider.occupation);
+      }
+      return [primary, secondary];
     }
 
     return (
@@ -33,26 +74,20 @@ export default function Providers() {
                 <View style={{ flex: 1 }}>
                     <TouchableOpacity
                         onPress={() => { setModalOpen(false) }}
-                        style={{ marginTop: 50, alignSelf: 'flex-end' }}
+                        style={GlobalStyle.backButton}
                     >
-                        <Text>Back</Text>
+                    <Text style={{ textAlign: 'center', fontSize: 20 }}>Back</Text>
                     </TouchableOpacity>
                     <ProviderForm addProvider={addProvider} />
                 </View>
             </Modal>
-            <ListTemplate listItems={providers}/>
+            <ListTemplate listItems={providers} textExtractor={textExtractor}/>
             <TouchableOpacity
-                onPress={() => { setModalOpen(true) }}
+              onPress={() => { setModalOpen(true) }}
+              style={GlobalStyle.addButton}
             >
-                <Text>Add Provider</Text>
+              <Text style={GlobalStyle.addButtonText}> Add Provider</Text>
             </TouchableOpacity>
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#9bcdd5",
-    }
-});

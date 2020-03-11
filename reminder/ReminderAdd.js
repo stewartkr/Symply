@@ -54,16 +54,19 @@ export default function ReminderAdd({setVisible, inputHandler}) {
         }));
       })}
       <TouchableOpacity
+        style={GlobalStyle.addButton}
         onPress={() => {
           if (currentInput.text !== '' && currentInput.schedule !== '') {
             inputHandler(currentInput);
             setVisible(false);
           }
-        }}>
-        <Text>Submit</Text>
+        }}
+      >
+        <Text style={GlobalStyle.addButtonText}>Submit</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => setVisible(false)}>
-        <Text>Close</Text>
+
+      <TouchableOpacity style={GlobalStyle.addButton} onPress={() => setVisible(false)}>
+        <Text style={GlobalStyle.addButtonText}>Close</Text>
       </TouchableOpacity>
     </View>
   );

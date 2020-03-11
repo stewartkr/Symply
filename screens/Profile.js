@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, Button, Text, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { GlobalColors } from '../assets/GlobalStyle';
 
 function Greeting({name}){
     return(
@@ -46,7 +47,7 @@ export default Profile;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#9bcdd5",
+        backgroundColor: GlobalColors.backgroundColor,
         alignItems: 'center',
         justifyContent:'center'
     },
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
         fontSize:25
     },
     buttonContainer:{
-        backgroundColor:'#f7f7f0',
+        backgroundColor: GlobalColors.softWhite,
         borderRadius: 5,
         marginTop:15,
         width:400,
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
     },
     buttonText:{
         fontSize:20,
-        color:'#5e5e5d',
+        color: GlobalColors.fontColor,
         lineHeight:40
     }
 
