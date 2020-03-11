@@ -16,10 +16,11 @@ export function AppointmentScreen() {
   const [realm, setRealm] = useState(null)
   
   const listener = (r) => {
-    if(treatments != r.objects('Appointment').snapshot()){
+    let snap = r.objects('Appointment').snapshot();
+    let array = Object.keys(snap).map(key => snap[key]);
+    if(appointments != array){
       console.log('Update Appointments');
-      console.log(r.objects('Appointment').snapshot());
-      setTreatments(r.objects('Appointment').snapshot());
+      setAppointments(array);
     }
   }
 
@@ -28,7 +29,9 @@ export function AppointmentScreen() {
   useEffect(() => {
     Realm.open(defaultOpenParams).then(realm => {
       setRealm(realm);
-      setAppointments(realm.objects('Appointment'));
+      let snap = realm.objects('Appointment').snapshot();
+      let array = Object.keys(snap).map(key => snap[key]);
+      setAppointments(array);
       realm.addListener(listenerName, listener);    
     });
 

@@ -15,10 +15,11 @@ export default function Providers() {
     const [realm, setRealm] = useState(null);
 
     const listener = (r) => {
-      if(treatments != r.objects('Provider').snapshot()){
+      let snap = r.objects('Provider').snapshot();
+      let array = Object.keys(snap).map(key => snap[key]);
+      if(providers != snap){
         console.log('Update Providers');
-        console.log(r.objects('Provider').snapshot());
-        setTreatments(r.objects('Provider').snapshot());
+        setProviders(array);
       }
     }
 
@@ -27,7 +28,9 @@ export default function Providers() {
     useEffect(() => {
         Realm.open(defaultOpenParams).then(realm => {
             setRealm(realm);
-            setProviders(realm.objects('Provider').snapshot())
+            let snap = realm.objects('Provider').snapshot();
+            let array = Object.keys(snap).map(key => snap[key]);
+            setProviders(array);
             realm.addListener(listenerName, listener);
         });
 

@@ -32,7 +32,7 @@ export default function BottomBar() {
                 iconName = 'md-clipboard';
               }
               else if (route.name === 'Reminders') {
-                  iconName = 'md-clock';
+                iconName = 'md-clock';
               }
 
               // You can return any component that you like here!

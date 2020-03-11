@@ -16,10 +16,11 @@ export function LogScreen() {
   const [realm, setRealm] = useState(null);
 
   const listener = (r) => {
-    if(treatments != r.objects('Symptom').snapshot()){
+    let snap = r.objects('Symptom').snapshot();
+    let array = Object.keys(snap).map(key => snap[key]);
+    if(symptoms != array){
       console.log('Update Symptoms');
-      console.log(r.objects('Symptom').snapshot());
-      setSymptoms(r.objects('Symptom').snapshot());
+      setSymptoms(array);
     }
   }
 
@@ -27,9 +28,10 @@ export function LogScreen() {
 
   useEffect(() => {
     Realm.open(defaultOpenParams).then(realm => {
-        console.log('opened realm in LogScreen');
         setRealm(realm);
-        setSymptoms(realm.objects('Symptom').snapshot());
+        let snap = realm.objects('Symptom').snapshot();
+        let array = Object.keys(snap).map(key => snap[key]);
+        setSymptoms(array);
         realm.addListener(listenerName, listener);
     });
 

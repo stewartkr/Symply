@@ -94,7 +94,7 @@ export default function ListTemplate({listItems, textExtractor}) {
   const filterItemPress = (key) => {
     console.log("filter by press");
     var item = null;
-    i = 0;
+    var i = 0;
     while (item == null  &&  i < filterOptions.length) {
       if (filterOptions[i].key == key) {
         item = filterOptions[i];
@@ -115,7 +115,7 @@ export default function ListTemplate({listItems, textExtractor}) {
   const sortItemPress = (key) => {
     console.log("sort by press");
     var item = null;
-    i = 0;
+    var i = 0;
     while (item == null  &&  i < sortOptions.length) {
       if (sortOptions[i].key == key) {
         item = sortOptions[i];
@@ -141,7 +141,7 @@ export default function ListTemplate({listItems, textExtractor}) {
 
   function sortList() {
     listItems.sort(function (a, b) {
-      return ('' + a.text).localeCompare(b.text);
+      return ('' + textExtractor(a)[0].localeCompare(textExtractor(b)[0]));
     });
     const sortedItems = []
     for(item of listItems) {
@@ -153,7 +153,7 @@ export default function ListTemplate({listItems, textExtractor}) {
 
   function sortListReverse() {
     listItems.sort(function (a, b) {
-      return ('' + a.text).localeCompare(b.text);
+      return ('' + textExtractor(a)[0].localeCompare(textExtractor(b)[0]));
     });
     const reverseSortedItems = [];
     var i = listItems.length - 1;
@@ -161,6 +161,8 @@ export default function ListTemplate({listItems, textExtractor}) {
       reverseSortedItems.push(listItems[i])
       i -= 1
     }
+    console.log("reverse sorteditems");
+    console.log(reverseSortedItems);
     pressFunct(reverseSortedItems);
   }
 
@@ -173,7 +175,7 @@ export default function ListTemplate({listItems, textExtractor}) {
     }
     return (
       <View style={{position: 'absolute', top: 85, width: '100%'}}>
-        <List listItems={dropdownItems} textExtractor={textExtractor} pressHandler={onClick} />
+        <List listItems={dropdownItems} textExtractor={(item) => { return [item.text, '']}} pressHandler={onClick} />
       </View>
     );
   }

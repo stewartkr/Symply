@@ -15,10 +15,11 @@ export default function Treatments() {
     const [realm, setRealm] = useState(null);
 
     const listener = (r) => {
-      if(treatments != r.objects('Treatment').snapshot()){
+      let snap = r.objects('Treatment').snapshot();
+      let array = Object.keys(snap).map(key => snap[key]);
+      if(treatments != array){
         console.log('Update Treatments');
-        console.log(r.objects('Treatment').snapshot());
-        setTreatments(r.objects('Treatment').snapshot());
+        setTreatments(array);
       }
     }
 
@@ -27,7 +28,9 @@ export default function Treatments() {
     useEffect(() => {
         Realm.open(defaultOpenParams).then(realm => {
             setRealm(realm);
-            setTreatments(realm.objects('Treatment').snapshot());
+            let snap = realm.objects('Treatment').snapshot();
+            let array = Object.keys(snap).map(key => snap[key]);
+            setTreatments(array);
             realm.addListener(listenerName, listener);    
         });
 
