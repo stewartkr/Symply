@@ -44,7 +44,7 @@ export function LogScreen() {
           realm.close();
         }
     };
-  }, []);  
+  }, []);
 
   const addSymptom = (symptoms) => {
     realm.write(() => {
@@ -85,7 +85,7 @@ export function LogScreen() {
           onPress={() => { setModalOpen(true) }}
           style={GlobalStyle.addButton}
         >
-          <Text style={GlobalStyle.addButtonText}>Add Appointment</Text>
+          <Text style={GlobalStyle.addButtonText}>Add Symptom</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
