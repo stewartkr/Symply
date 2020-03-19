@@ -17,7 +17,7 @@ export function AppointmentScreen() {
   const listener = r => {
     let snap = r.objects('Appointment').snapshot();
     let array = Object.keys(snap).map(key => snap[key]);
-    if (appointments != array) {
+    if (appointments !== array) {
       console.log('Update Appointments');
       setAppointments(array);
     }
@@ -58,8 +58,74 @@ export function AppointmentScreen() {
     const weekday = appointment.time.getDay();
     const date = appointment.time.getDate();
     const month = appointment.time.getMonth();
-    
-    let primary = appointment.time.toString();
+
+    let weekdayName = '';
+    let monthName = '';
+
+    switch (weekday) {
+      case 0:
+        weekdayName = 'Sunday';
+        break;
+      case 1:
+        weekdayName = 'Monday';
+        break;
+      case 2:
+        weekdayName = 'Tuesday';
+        break;
+      case 3:
+        weekdayName = 'Wednesday';
+        break;
+      case 4:
+        weekdayName = 'Thursday';
+        break;
+      case 5:
+        weekdayName = 'Friday';
+        break;
+      case 6:
+        weekdayName = 'Saturday';
+        break;
+    }
+
+    switch (month) {
+      case 0:
+        monthName = 'Jan';
+        break;
+      case 1:
+        monthName = 'Feb';
+        break;
+      case 2:
+        monthName = 'Mar';
+        break;
+      case 3:
+        monthName = 'Apr';
+        break;
+      case 4:
+        monthName = 'May';
+        break;
+      case 5:
+        monthName = 'Jun';
+        break;
+      case 6:
+        monthName = 'Jul';
+        break;
+      case 7:
+        monthName = 'Aug';
+        break;
+      case 8:
+        monthName = 'Sep';
+        break;
+      case 9:
+        monthName = 'Oct';
+        break;
+      case 10:
+        monthName = 'Nov';
+        break;
+      case 11:
+        monthName = 'Dec';
+        break;
+    }
+
+    let primary = `${weekdayName}, ${monthName} ${date}`;
     let secondary = `${appointment.provider.firstName} ${
       appointment.provider.lastName
     }`;
