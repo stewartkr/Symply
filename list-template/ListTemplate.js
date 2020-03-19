@@ -209,7 +209,6 @@ export default function ListTemplate({listItems, textExtractor}) {
 
   return (
     <View style={{ flex: 1}}>
-      <ConsoleLog>{items}</ConsoleLog>
       <TextInput // NOTE: Nonfunctional.
         placeholder='Search...'
       />

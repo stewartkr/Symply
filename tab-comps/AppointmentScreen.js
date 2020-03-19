@@ -1,28 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity, Modal, SafeAreaView } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Text, View, TouchableOpacity, Modal, SafeAreaView} from 'react-native';
 import ListTemplate from '../list-template/ListTemplate';
 import TopBar from '../navigation/TopBar';
-import { GlobalColors, GlobalStyle } from '../assets/GlobalStyle';
+import {GlobalColors, GlobalStyle} from '../assets/GlobalStyle';
 import ApppointmentForm from '../form_components/AppointmentForm';
 
-import { defaultOpenParams } from '../realm/DatabaseConfig';
+import {defaultOpenParams} from '../realm/DatabaseConfig';
 
 const Realm = require('realm');
 
 export function AppointmentScreen() {
-
   const [appointments, setAppointments] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [realm, setRealm] = useState(null)
-  
-  const listener = (r) => {
+  const [realm, setRealm] = useState(null);
+
+  const listener = r => {
     let snap = r.objects('Appointment').snapshot();
     let array = Object.keys(snap).map(key => snap[key]);
-    if(appointments != array){
+    if (appointments != array) {
       console.log('Update Appointments');
       setAppointments(array);
     }
-  }
+  };
 
   const listenerName = 'change';
 
@@ -32,7 +31,7 @@ export function AppointmentScreen() {
       let snap = realm.objects('Appointment').snapshot();
       let array = Object.keys(snap).map(key => snap[key]);
       setAppointments(array);
-      realm.addListener(listenerName, listener);    
+      realm.addListener(listenerName, listener);
     });
 
     return () => {
@@ -44,47 +43,51 @@ export function AppointmentScreen() {
     };
   }, []);
 
-  const addAppoint = (appointments) => {
+  const addAppoint = appointments => {
     realm.write(() => {
       newTreatment = realm.create('Appointment', {
         provider: appointments.name,
-        time: appointments.time
+        time: appointments.time,
       });
     });
     setModalOpen(false);
-  }
+  };
 
   // return an array, index 0 is Name, index 1 is secondary info
-  const textExtractor = (appointment) => {
+  const textExtractor = appointment => {
+    const weekday = appointment.time.getDay();
+    const date = appointment.time.getDate();
+    const month = appointment.time.getMonth();
+    
     let primary = appointment.time.toString();
-    let secondary = '';
-    secondary = appointment.provider;
+    let secondary = `${appointment.provider.firstName} ${
+      appointment.provider.lastName
+    }`;
     return [primary, secondary];
-  }
+  };
 
   return (
-    <SafeAreaView style={{flex:1}}>
+    <SafeAreaView style={{flex: 1}}>
       <View style={{flex: 1, backgroundColor: GlobalColors.backgroundColor}}>
-        <TopBar pageName='Appointments' />
-        <Modal 
-          visible={modalOpen} 
-          animationType='slide' 
-        >
+        <TopBar pageName="Appointments" />
+        <Modal visible={modalOpen} animationType="slide">
           <View style={GlobalStyle.container}>
             <TouchableOpacity
-              onPress={() => { setModalOpen(false) }}
-              style={GlobalStyle.backButton}
-            >
-              <Text style={{ textAlign: 'center', fontSize: 20}}>Back</Text>
+              onPress={() => {
+                setModalOpen(false);
+              }}
+              style={GlobalStyle.backButton}>
+              <Text style={{textAlign: 'center', fontSize: 20}}>Back</Text>
             </TouchableOpacity>
-            <ApppointmentForm addAppoint={addAppoint}/>
+            <ApppointmentForm addAppoint={addAppoint} />
           </View>
         </Modal>
-        <ListTemplate listItems={appointments} textExtractor={textExtractor}/>
-        <TouchableOpacity 
-          onPress={()=>{setModalOpen(true)}}
-          style={GlobalStyle.addButton}
-        >
+        <ListTemplate listItems={appointments} textExtractor={textExtractor} />
+        <TouchableOpacity
+          onPress={() => {
+            setModalOpen(true);
+          }}
+          style={GlobalStyle.addButton}>
           <Text style={GlobalStyle.addButtonText}>Add Appointment</Text>
         </TouchableOpacity>
       </View>

@@ -87,12 +87,12 @@ export default function ReminderScreen() {
   };
 
   return (
-    <SafeAreaView style={{flex:1}}>
+    <SafeAreaView style={{flex: 1}}>
       <View style={GlobalStyle.container}>
         <TopBar pageName="Reminders" />
         <Modal
-          style={GlobalStyle.container} 
-          visible={modalVisible} 
+          style={GlobalStyle.container}
+          visible={modalVisible}
           animationType="slide">
           <ReminderAdd setVisible={setVisible} inputHandler={addReminder} />
         </Modal>
