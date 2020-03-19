@@ -71,7 +71,7 @@ const GlobalStyle = StyleSheet.create({
 
   textInputBox: {
     borderWidth: 1,
-    padding: 10, 
+    padding: 10,
     marginBottom: 5,
     fontSize: 18,
     borderRadius: 6,
@@ -81,7 +81,14 @@ const GlobalStyle = StyleSheet.create({
   },
 
   formName: {
-    paddingBottom: 100,
+    height: 250,
+    textAlign: 'center',
+    fontSize: 50,
+    color: font_color
+  },
+
+  providerFormName: {
+    height: 200,
     textAlign: 'center',
     fontSize: 50,
     color: font_color
@@ -97,7 +104,7 @@ const GlobalStyle = StyleSheet.create({
   },
 
   backButton:{
-    marginTop: 50, 
+    marginTop: 50,
     alignSelf: 'flex-end',
     width:55,
     height:35,
@@ -106,6 +113,6 @@ const GlobalStyle = StyleSheet.create({
     borderRadius:5,
     right:1
   }
-}) 
+})
 
 export { GlobalStyle, GlobalColors };
