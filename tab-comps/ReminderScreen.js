@@ -81,9 +81,9 @@ export default function ReminderScreen() {
         schedule: input.schedule,
       });
     });
-    setReminders(prevReminders => {
-      return [...prevReminders, newReminder];
-    });
+    // setReminders(prevReminders => {
+    //   return [...prevReminders, newReminder];
+    // });
   };
 
   return (

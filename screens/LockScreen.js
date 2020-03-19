@@ -68,8 +68,7 @@ export default function LockScreen({ navigation }) {
   })
 
   return (
-    <KeyboardAvoidingView style={GlobalStyle.container} behavior="padding">
-      <ScrollView>
+      <ScrollView style={GlobalStyle.container}>
         <View style={[LocalStyle.circle, LocalStyle.logoContainer]}>
           <Text style={[GlobalStyle.titleText, {marginTop: '40%'}]}>
             Symply
@@ -90,6 +89,5 @@ export default function LockScreen({ navigation }) {
           </View>
         </View>
       </ScrollView>
-    </KeyboardAvoidingView>
   )
 }

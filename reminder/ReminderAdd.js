@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+    KeyboardAvoidingView,
 } from 'react-native';
 import {GlobalStyle, GlobalColors} from '../assets/GlobalStyle';
 
@@ -38,7 +39,7 @@ export default function ReminderAdd({setVisible, inputHandler}) {
   });
 
   return (
-    <View style={GlobalStyle.formContainer}>
+    <KeyboardAvoidingView style={GlobalStyle.formContainer} behavior='position'>
       <Text style={GlobalStyle.formName}>Add a Reminder</Text>
       {inputBox('Enter reminder text', text => {
         setInput(prevInput => ({
@@ -67,6 +68,6 @@ export default function ReminderAdd({setVisible, inputHandler}) {
       <TouchableOpacity style={GlobalStyle.addButton} onPress={() => setVisible(false)}>
         <Text style={GlobalStyle.addButtonText}>Close</Text>
       </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
