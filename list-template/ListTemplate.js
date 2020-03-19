@@ -20,7 +20,10 @@ export default function ListTemplate({listItems, textExtractor}) {
 
   // necessary b/c otherwise we don't update listItems if the prop changes
   useEffect(() => {
-    if(listItems != items) {
+    if (items == null) {
+      pressFunct(listItems)
+    }
+    else if(listItems != null  &&  listItems.length != items.length) {
       pressFunct(listItems);
     }
   })
@@ -141,7 +144,9 @@ export default function ListTemplate({listItems, textExtractor}) {
 
   function sortList() {
     listItems.sort(function (a, b) {
-      return ('' + textExtractor(a)[0].localeCompare(textExtractor(b)[0]));
+      const textA = textExtractor(a)[0].toLowerCase();
+      const textB = textExtractor(b)[0].toLowerCase();
+      return ('' + textA.localeCompare(textB));
     });
     const sortedItems = []
     for(item of listItems) {
@@ -153,7 +158,9 @@ export default function ListTemplate({listItems, textExtractor}) {
 
   function sortListReverse() {
     listItems.sort(function (a, b) {
-      return ('' + textExtractor(a)[0].localeCompare(textExtractor(b)[0]));
+      const textA = textExtractor(a)[0].toLowerCase();
+      const textB = textExtractor(b)[0].toLowerCase();
+      return ('' + textA.localeCompare(textB));
     });
     const reverseSortedItems = [];
     var i = listItems.length - 1;

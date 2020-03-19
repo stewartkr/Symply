@@ -11,7 +11,7 @@ function AppointmentForm({ addAppoint }){
       <ScrollView>
         <View style={GlobalStyle.formContainer}>
           <Text style={GlobalStyle.formName}> New Appointment Information </Text>
-          
+
           <Formik
             initialValues = {{provider:'', time:'', notes:''}}
             onSubmit = {(values, actions) => {
@@ -23,7 +23,7 @@ function AppointmentForm({ addAppoint }){
           >
             {(formProps) => (
               <View>
-                <TextInput 
+                <TextInput
                   style={GlobalStyle.textInputBox}
                   placeholder='Appointment With'
                   //two way data binding
@@ -37,7 +37,7 @@ function AppointmentForm({ addAppoint }){
                   //two way data binding
                   onChangeText={formProps.handleChange('time')}
                   value={formProps.values.time}
-                /> 
+                />
 
                 <TextInput
                   style={GlobalStyle.textInputBox}
@@ -45,7 +45,7 @@ function AppointmentForm({ addAppoint }){
                   //two way data binding
                   onChangeText={formProps.handleChange('notes')}
                   value={formProps.values.notes}
-                />  
+                />
 
                 <TouchableOpacity
                   onPress={formProps.handleSubmit}

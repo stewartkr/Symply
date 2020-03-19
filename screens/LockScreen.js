@@ -18,7 +18,7 @@ const LocalStyle = StyleSheet.create({
 
   pinContainer: {
     alignContent: 'center',
-    margin: '12%',    
+    margin: '12%',
     backgroundColor: GlobalColors.pinContainerBG
   },
 
@@ -38,7 +38,7 @@ const LocalStyle = StyleSheet.create({
 
 export default function LockScreen({ navigation }) {
 
-  /* 
+  /*
     state = {
       pin - string representing user's pin
     }
@@ -50,7 +50,7 @@ export default function LockScreen({ navigation }) {
   const userInputChangeHandler = (val) => {
     setUserInput(val);
     // at each entry change, re-eval whether we hit the correct pin
-    if(userInput === pin) {
+    if(val === pin) {
       console.log("correct pin");
       navigation.navigate(NAV_TO);
     } else {

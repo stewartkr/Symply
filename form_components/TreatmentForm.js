@@ -18,12 +18,12 @@ function TreatmentForm({ addTreatments }){
             initialValues={{ name: '', medication: false, dose:'', doseUnit:''}}
             onSubmit = {(values, actions) => {
               actions.resetForm();
-              addTreatments(values);  
+              addTreatments(values);
             }}
           >
             {(formProps) => (
               <View>
-                <TextInput 
+                <TextInput
                   style={GlobalStyle.textInputBox}
                   placeholder='Treatment Name'
                   //two way data binding
@@ -41,7 +41,7 @@ function TreatmentForm({ addTreatments }){
                   onChangeText={formProps.handleChange('dose')}
                   value={formProps.values.frequency}
                   keyboardType='number-pad'
-                /> 
+                />
 
                 <TextInput
                   style={GlobalStyle.textInputBox}

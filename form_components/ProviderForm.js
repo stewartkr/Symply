@@ -8,11 +8,11 @@ import { ScrollView } from 'react-native-gesture-handler';
 function ProviderForm({ addProvider }) {
 
   return (
-    <KeyboardAvoidingView behavior="padding">  
+    <KeyboardAvoidingView behavior="padding">
       <ScrollView>
         <View style={GlobalStyle.formContainer}>
-          <Text style={GlobalStyle.formName}> New Provider Information </Text>
-          
+          <Text style={GlobalStyle.providerFormName}> New Provider Information </Text>
+
           <Formik
             enableReinitialize
             // rest of props for treatment form; , frequency:'', dosage:''
